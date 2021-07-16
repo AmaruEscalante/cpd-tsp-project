@@ -1,3 +1,4 @@
+// ./a.out input.txt
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
