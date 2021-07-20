@@ -97,6 +97,7 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
 	// build the search space tree recursively
 	for (int i = 0; i < N; i++)
 	{
+#pragma omp task shared(curr_bound, curr_weight, curr_path, adj)
 		// Consider next vertex if it is not same (diagonal
 		// entry in adjacency matrix and not visited
 		// already)
@@ -173,8 +174,11 @@ void TSP(int adj[N][N])
 	visited[0] = true;
 	curr_path[0] = 0;
 
-	// Call to TSPRec for curr_weight equal to
-	// 0 and level 1
+// Call to TSPRec for curr_weight equal to
+// 0 and level
+// Parallize a recursive function with a reduce operation
+#pragma omp parallel
+#pragma single
 	TSPRec(adj, curr_bound, 0, 1, curr_path);
 }
 

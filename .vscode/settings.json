@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.js": "javascriptreact",
+    "cmath": "cpp",
+    "chrono": "cpp"
+  }
+}
