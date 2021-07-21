@@ -97,7 +97,7 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
 	// build the search space tree recursively
 	for (int i = 0; i < N; i++)
 	{
-#pragma omp task shared(curr_bound, curr_weight, curr_path, adj)
+#pragma omp task shared(adj) private(curr_path)
 		// Consider next vertex if it is not same (diagonal
 		// entry in adjacency matrix and not visited
 		// already)
@@ -106,6 +106,12 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
 		{
 			int temp = curr_bound;
 			curr_weight += adj[curr_path[level - 1]][i]; // Add weight of edge
+
+			// Print all values in current path,
+			for (int j = 0; j < level; j++)
+				printf("%d ", curr_path[j]);
+			// Print omp task id
+			printf("Thread: %d, en nivel %d \n", omp_get_thread_num(), level);
 
 			// different computation of curr_bound for
 			// level 2 from the other levels
@@ -186,7 +192,7 @@ void TSP(int adj[N][N])
 int main()
 {
 	// Initialize OMP environment
-	omp_set_num_threads(4);
+	omp_set_num_threads(2);
 	//Adjacency matrix for the given graph
 	int adj[N][N] = {
 		{0, 10, 15, 20},
