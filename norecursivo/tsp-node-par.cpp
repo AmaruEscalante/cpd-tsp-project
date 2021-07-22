@@ -11,10 +11,12 @@ using namespace std;
 #define SIMPLE_COST 0
 
 // `N` is the total number of total nodes on the graph or cities on the map
-#define N 5
+#define N 10
  
 // Sentinel value for representing `INFINITY`
 #define INF INT_MAX
+
+size_t result_tsp[N+1];
 
 // Function to find the minimum edge cost
 // having an end at the vertex i
@@ -200,9 +202,15 @@ int calculateCost(int reducedMatrix[N][N])
 // Function to print list of cities visited following least cost
 void printPath(vector<pair<int, int>> const &list)
 {
-    for (int i = 0; i < list.size(); i++) {
-        cout << list[i].first + 1 << " —> " << list[i].second + 1 << endl;
+    cout << "Path is: ";
+    int i = 0;
+    for (i = 0; i < list.size(); i++) {
+        // cout << list[i].first + 1 << " —> " << list[i].second + 1 << endl;
+        cout << list[i].first + 1 << " ";
+        result_tsp[i] = list[i].first + 1;
     }
+    cout << list[i-1].second + 1 << endl;
+    result_tsp[i] = list[i-1].second + 1;
 }
  
 // Comparison object to be used to order the heap
@@ -266,7 +274,7 @@ int solve(int costMatrix[N][N])
         for (int j = 0; j < N; j++)
         {   
 #pragma omp task
-            printf("Thread: %d\n", omp_get_thread_num());
+            // printf("Thread: %d\n", omp_get_thread_num());
             if (min->reducedMatrix[i][j] != INF)
             {
                 // create a child node and calculate its cost
@@ -297,89 +305,62 @@ int solve(int costMatrix[N][N])
     return 0;
 }
  
-int main()
+int main(int argc, char *argv[])
 {
     // cost matrix for traveling salesman problem.
- 
-    /*
-    int costMatrix[N][N] =
-    {
-        {INF, 5, INF, 6, 5, 4},
-        {5, INF, 2, 4, 3, INF},
-        {INF, 2, INF, 1, INF, INF},
-        {6, 4, 1, INF, 7, INF},
-        {5, 3, INF, 7, INF, 3},
-        {4, INF, INF, INF, 3, INF}
-    };
-    */
- 
-    // // cost 34
-    // int costMatrix[N][N] =
-    // {
-    //     { INF, 10, 8, 9, 7 },
-    //     { 10, INF, 10, 5, 6 },
-    //     { 8, 10, INF, 8, 9 },
-    //     { 9, 5, 8, INF, 6 },
-    //     { 7, 6, 9, 6, INF }
-    // };
- 
-    /*
-    // cost 16
-    int costMatrix[N][N] =
-    {
-        {INF, 3, 1, 5, 8},
-        {3, INF, 6, 7, 9},
-        {1, 6, INF, 4, 2},
-        {5, 7, 4, INF, 3},
-        {8, 9, 2, 3, INF}
-    };
-    */
- 
-    /*
-    // cost 8
-    int costMatrix[N][N] =
-    {
-        {INF, 2, 1, INF},
-        {2, INF, 4, 3},
-        {1, 4, INF, 2},
-        {INF, 3, 2, INF}
-    };
-    */
- 
-    /*
-    // cost 12
-    int costMatrix[N][N] =
-    {
-        {INF, 5, 4, 3},
-        {3, INF, 8, 2},
-        {5, 3, INF, 9},
-        {6, 4, 3, INF}
-    };
-    */
-
-    // // geek for geeks
-    // int costMatrix[N][N] = 
-    // {
-    //     {INF, 10, 15, 20},
-    //     {10, INF, 35, 25},
-    //     {15, 35, INF, 30},
-    //     {20, 25, 30, INF}
-    // };
 
     // initialize number of threads for paralel programming with openmp
     omp_set_num_threads(4);
 
-    //video youtube
-    int costMatrix[N][N] =
-    {
-        { INF, 20, 30, 10, 11 },
-        { 15, INF, 16, 4, 2 },
-        { 3, 5, INF, 2, 4 },
-        { 19, 6, 18, INF, 3 },
-        { 16, 4, 7, 16, INF }
-    };
- 
-    cout << "Total cost is \n\r" << solve(costMatrix) << endl;
+    freopen(argv[1], "r", stdin);
+
+    size_t n;
+    size_t result[N+1];
+    size_t cost;
+    int costMatrix[N][N];
+
+    std::cin >> n;
+    for (size_t i = 0; i < n; i++)
+        for (size_t j = 0; j < n; j++)
+            std::cin >> costMatrix[i][j];
+    
+    // cout << "Result to compare: " << endl;
+    for (int i = 0; i < n+1; i++){
+        std::cin >> result[i];
+        // cout << result[i] << " ";
+    }
+    // cout << endl;
+
+    std::cin >> cost;
+    // cout << "Cost to compare: " << cost << endl;
+
+    cout << "Start solver..." << endl;
+    double start = omp_get_wtime();
+    int cost_tsp = solve(costMatrix);
+    cout << "Total cost is: " << cost_tsp << endl;
+    double stop = omp_get_wtime();
+    cout << "Time taken is: " << stop - start << "seconds" << endl;
+
+    cout << endl;
+    cout << "Result of tests are: " << endl;
+
+    bool success = false;
+    for (int i = 0; i < N+1; i++){
+        if (result_tsp[i] == result[i]) {
+            success = true;
+        } else {
+            success = false;
+            break;
+        }
+    }
+    std::cout << "1. Test Path: " << std::boolalpha << success << std::endl;
+
+    success = false;
+    if (cost_tsp == cost) {
+        success = true;
+    }
+    std::cout << "2. Test Cost: " << std::boolalpha << success << std::endl;
  
     return 0;
+    // g++ -std=c++17 -Xpreprocessor -fopenmp tsp-node.cpp -lomp
 }
