@@ -4,7 +4,7 @@
 #include <utility>
 #include <cstring>
 #include <climits>
-#include <cmath>
+#include <omp.h>
 using namespace std;
 
 // `N` is the total number of total nodes on the graph or cities on the map
@@ -259,9 +259,14 @@ int solve(int costMatrix[N][N])
  
         // do for each child of min
         // `(i, j)` forms an edge in a space tree
+
+        // paralel for with task openmp
+#pragma omp parallel
+#pragma single
         for (int j = 0; j < N; j++)
         {   
-  
+#pragma omp task
+            printf("Thread: %d\n", omp_get_thread_num());
             if (min->reducedMatrix[i][j] != INF)
             {
                 // create a child node and calculate its cost
@@ -277,6 +282,9 @@ int solve(int costMatrix[N][N])
                             + calculateCost(child->reducedMatrix);
 
                 // Add a child to the list of live nodes
+
+                // openmp critical region
+#pragma omp critical
                 pq.push(child);
             }
 
@@ -357,6 +365,9 @@ int main()
     //     {15, 35, INF, 30},
     //     {20, 25, 30, INF}
     // };
+
+    // initialize number of threads for paralel programming with openmp
+    omp_set_num_threads(4);
 
     //video youtube
     int costMatrix[N][N] =
