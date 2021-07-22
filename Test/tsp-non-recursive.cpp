@@ -111,13 +111,14 @@ void TSP(int adj[N][N])
     int top_prev = 0;
     int temp_prev_wg = 0;
     int temp = 0;
+    bool yamarque = true;
     
     while (!curr_path.empty())
     {
         int s = curr_path.top();
-        // level = curr_path.size();
 
         cout << "\n\rInit Current top: " << s << " Current level: " << level << endl;
+        curr_path.pop();
         
         usleep(1000000);
 
@@ -140,6 +141,7 @@ void TSP(int adj[N][N])
                 // current result is better.
                 if (curr_res < final_res)
                 {
+                    printf("Update path\n");
                     // Copy the current path to final_path
                     copyToFinal(curr_path);
                     final_res = curr_res;
@@ -150,73 +152,68 @@ void TSP(int adj[N][N])
             // all changes to curr_weight and curr_bound
 
             curr_weight -= adj[s][temp_prev_wg];
-            // curr_weight -= temp_prev_wg;
             curr_bound = temp;
             printf("   Prev Curr weight: %d. - Prev Curr bound: %d\n", curr_weight, curr_bound);
 
             // Also reset the visited array
-            visited[s] = false;
+            visited[s] = false; // ver la forma de regresar, porq aqui lo marca como no visitado, entonces va a volvr entrar en el for
+            // yamarque = false;
             // for loop to printf visited array
             printf("Visited Array: ");
             for (int i = 0; i < N; i++)
                 printf("%d ", visited[i]);
             printf("\n");
-            
-            curr_path.pop();
 
+            level--;
         }
-        else
+
+        // for any other level iterate for all vertices to
+        // build the search space tree recursively
+        for (int i = 0; i < N; i++)
         {
-            // for any other level iterate for all vertices to
-            // build the search space tree recursively
-            for (int i = 0; i < N; i++)
+            // Consider next vertex if it is not same (diagonal
+            // entry in adjacency matrix and not visited
+            // already)
+
+            if (adj[s][i] != 0 && visited[i] == false)
             {
-                s = curr_path.top();
-                level = curr_path.size();
-                // Consider next vertex if it is not same (diagonal
-                // entry in adjacency matrix and not visited
-                // already)
-                // int temp = 0;
-                if (adj[s][i] != 0 && visited[i] == false)
+                temp = curr_bound;
+                printf("\n\rInit bound: %d\n", temp);
+
+                cout << "  For Current top: " << s << " to "<< i <<" . Current level: " << level << endl;
+
+                curr_weight += adj[s][i]; // Add weight of edge
+                temp_prev_wg = s;
+
+                printf("   Curr weight: %d\n", curr_weight);
+
+                // // Print all values in current path,
+                // for (int j = 0; j < level; j++)
+                //     printf("%d ", curr_path[j]);
+                // Print omp task id
+
+                // different computation of curr_bound for
+                // level 2 from the other levels
+                if (level == 1)
+                    curr_bound -= ((firstMin(adj, s) + firstMin(adj, i)) /  2);
+                else
+                    curr_bound -= ((secondMin(adj, s) + firstMin(adj, i)) / 2);
+                printf("   Actual bound: %d\n", curr_bound);
+
+                // curr_bound + curr_weight is the actual lower bound
+                // for the node that we have arrived on
+                // If current lower bound < final_res, we need to explore
+                // the node further
+                if (curr_bound + curr_weight < final_res)
                 {
-                    temp = curr_bound;
-                    printf("\n\rInit bound: %d\n", temp);
-
-                    cout << "  For Current top: " << s << " to "<< i <<" . Current level: " << level << endl;
-
-                    curr_weight += adj[s][i]; // Add weight of edge
-                    temp_prev_wg = s;
-                    printf("   Curr weight: %d\n", curr_weight);
-
-                    // // Print all values in current path,
-                    // for (int j = 0; j < level; j++)
-                    //     printf("%d ", curr_path[j]);
-                    // Print omp task id
-
-                    // different computation of curr_bound for
-                    // level 2 from the other levels
-                    if (level == 1)
-                        curr_bound -= ((firstMin(adj, s) + firstMin(adj, i)) /  2);
-                    else
-                        curr_bound -= ((secondMin(adj, s) + firstMin(adj, i)) / 2);
-                    printf("   Actual bound: %d\n", curr_bound);
-
-                    // curr_bound + curr_weight is the actual lower bound
-                    // for the node that we have arrived on
-                    // If current lower bound < final_res, we need to explore
-                    // the node further
-                    if (curr_bound + curr_weight < final_res)
-                    {
-                        curr_path.push(i);
-                        // level = curr_path.size();
-                        visited[i] = true;
-                    }
+                    curr_path.push(i);
+                    visited[i] = true;
                 }
-
-                // level = curr_path.size();
-                
+                level++;
+                s = curr_path.top();
             }
-        }      
+        }
+    
     }
 }
 
