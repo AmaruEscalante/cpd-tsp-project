@@ -13,8 +13,13 @@ using namespace std;
 #define SIMPLE_COST 0
 
 // `N` is the total number of total nodes on the graph or cities on the map
-#define N 10
- 
+#ifdef SIZE
+    #undef N
+    #define N SIZE
+#else
+    #define N 10
+#endif
+
 // Sentinel value for representing `INFINITY`
 #define INF INT_MAX
 
@@ -353,5 +358,5 @@ int main(int argc, char *argv[])
     std::cout << "2. Test Cost: " << std::boolalpha << success << std::endl;
  
     return 0;
-    // g++ -std=c++17 tsp-node.cpp
+    // g++ -std=c++17 tsp-node.cpp -DN=10
 }
