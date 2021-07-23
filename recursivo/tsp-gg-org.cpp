@@ -4,7 +4,13 @@
 #include <iostream>
 // #include <omp.h>
 #include <cmath>
+#include <climits>
 #include <unistd.h>
+#include <cstring>
+#include <chrono>
+
+#define DEBUG false
+
 using namespace std;
 const int N = 4;
 
@@ -71,24 +77,33 @@ int secondMin(int adj[N][N], int i)
 void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
             int level, int curr_path[])
 {
+
+#if DEBUG
     cout << "\n\rInit Current top: " << curr_path[level - 1] << " Current level: " << level << endl;
     usleep(1000000);
+#endif
 
     // base case is when we have reached level N which
     // means we have covered all the nodes once
     if (level == N)
     {
+#if DEBUG
         printf("End of tree...\n");
+#endif
         // check if there is an edge from last vertex in
         // path back to the first vertex
         if (adj[curr_path[level - 1]][curr_path[0]] != 0)
         {
+#if DEBUG
             printf("  Last node %d has connection to O\n", curr_path[level - 1]);
+#endif
             // curr_res has the total weight of the
             // solution we got
             int curr_res = curr_weight +
                            adj[curr_path[level - 1]][curr_path[0]];
+#if DEBUG
             printf("  Curr Res: %d\n", curr_res);
+#endif
 
             // Update final result and final path if
             // current result is better.
@@ -112,12 +127,16 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
             visited[i] == false)
         {
             int temp = curr_bound;
+#if DEBUG
             printf("\n\rInit bound: %d\n", temp);
 
-            cout << "  For Current top: " << curr_path[level - 1] << " to "<< i <<" . Current level: " << level << endl;
+            cout << "  For Current top: " << curr_path[level - 1] << " to " << i << " . Current level: " << level << endl;
+#endif
 
             curr_weight += adj[curr_path[level - 1]][i]; // Add weight of edge
+#if DEBUG
             printf("   Curr weight: %d\n", curr_weight);
+#endif
 
             // Print all values in current path,
             // for (int j = 0; j < level; j++)
@@ -133,7 +152,10 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
                 curr_bound -= ((secondMin(adj, curr_path[level - 1]) +
                                 firstMin(adj, i)) /
                                2);
+
+#if DEBUG
             printf("   Actual bound: %d\n", curr_bound);
+#endif
 
             // curr_bound + curr_weight is the actual lower bound
             // for the node that we have arrived on
@@ -153,17 +175,21 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
             // all changes to curr_weight and curr_bound
             curr_weight -= adj[curr_path[level - 1]][i];
             curr_bound = temp;
+#if DEBUG
             printf("   Prev Curr weight: %d. - Prev Curr bound: %d\n", curr_weight, curr_bound);
+#endif
 
             // Also reset the visited array
             memset(visited, false, sizeof(visited));
             for (int j = 0; j <= level - 1; j++)
                 visited[curr_path[j]] = true;
-            // for loop to printf visited array
+// for loop to printf visited array
+#if DEBUG
             printf("Visited Array: ");
             for (int i = 0; i < N; i++)
                 printf("%d ", visited[i]);
             printf("\n");
+#endif
         }
     }
 }
@@ -206,8 +232,14 @@ int main()
         {10, 0, 35, 25},
         {15, 35, 0, 30},
         {20, 25, 30, 0}};
-
+    // Measure execution time
+    auto start = std::chrono::steady_clock::now();
     TSP(adj);
+    auto end = std::chrono::steady_clock::now();
+
+    // Print exeuction time
+    std::cout << "Time taken to find the shortest path: "
+              << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << " ns" << std::endl;
 
     printf("Minimum cost : %d\n", final_res);
     printf("Path Taken : ");

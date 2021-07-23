@@ -97,7 +97,7 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
 	// build the search space tree recursively
 	for (int i = 0; i < N; i++)
 	{
-#pragma omp task shared(adj) private(curr_path)
+		// #pragma omp task shared(adj) private(curr_path)
 		// Consider next vertex if it is not same (diagonal
 		// entry in adjacency matrix and not visited
 		// already)
@@ -180,11 +180,11 @@ void TSP(int adj[N][N])
 	visited[0] = true;
 	curr_path[0] = 0;
 
-// Call to TSPRec for curr_weight equal to
-// 0 and level
-// Parallize a recursive function with a reduce operation
-#pragma omp parallel
-#pragma single
+	// Call to TSPRec for curr_weight equal to
+	// 0 and level
+	// // Parallize a recursive function with a reduce operation
+	// #pragma omp parallel
+	// #pragma single
 	TSPRec(adj, curr_bound, 0, 1, curr_path);
 }
 
@@ -192,15 +192,18 @@ void TSP(int adj[N][N])
 int main()
 {
 	// Initialize OMP environment
-	omp_set_num_threads(2);
+	omp_set_num_threads(4);
 	//Adjacency matrix for the given graph
 	int adj[N][N] = {
 		{0, 10, 15, 20},
 		{10, 0, 35, 25},
 		{15, 35, 0, 30},
 		{20, 25, 30, 0}};
-
+	double start = omp_get_wtime();
 	TSP(adj);
+	double stop = omp_get_wtime();
+
+	cout << "Time taken is: " << stop - start << " seconds" << endl;
 
 	printf("Minimum cost : %d\n", final_res);
 	printf("Path Taken : ");
