@@ -11,12 +11,18 @@ using namespace std;
 #define SIMPLE_COST 0
 
 // `N` is the total number of total nodes on the graph or cities on the map
-#define N 10
+#ifdef SIZE
+    #undef N
+    #define N SIZE
+#else
+    #define N 10
+#endif
  
 // Sentinel value for representing `INFINITY`
 #define INF INT_MAX
 
 size_t result_tsp[N+1];
+int golbal_cost;
 
 // Function to find the minimum edge cost
 // having an end at the vertex i
@@ -241,6 +247,8 @@ int solve(int costMatrix[N][N])
  
     // Finds a live node with the least cost, adds its children to the list of
     // live nodes, and finally deletes it from the list
+#pragma omp parallel
+#pragma single
     while (!pq.empty())
     {
         // Find a live node with the least estimated cost
@@ -248,9 +256,11 @@ int solve(int costMatrix[N][N])
  
         // The found node is deleted from the list of live nodes
         pq.pop();
- 
+
+        int i = 0;
+#pragma omp task
         // `i` stores the current city number
-        int i = min->vertex;
+        i = min->vertex;
  
         // if all cities are visited
         if (min->level == N - 1)
@@ -262,18 +272,16 @@ int solve(int costMatrix[N][N])
             printPath(min->path);
  
             // return optimal cost
-            return min->cost;
+            golbal_cost = min->cost;
         }
  
         // do for each child of min
         // `(i, j)` forms an edge in a space tree
 
         // paralel for with task openmp
-#pragma omp parallel
-#pragma single
+
         for (int j = 0; j < N; j++)
         {   
-#pragma omp task
             // printf("Thread: %d\n", omp_get_thread_num());
             if (min->reducedMatrix[i][j] != INF)
             {
@@ -336,10 +344,10 @@ int main(int argc, char *argv[])
 
     cout << "Start solver..." << endl;
     double start = omp_get_wtime();
-    int cost_tsp = solve(costMatrix);
-    cout << "Total cost is: " << cost_tsp << endl;
+    solve(costMatrix);
+    cout << "Total cost is: " << golbal_cost << endl;
     double stop = omp_get_wtime();
-    cout << "Time taken is: " << stop - start << "seconds" << endl;
+    cout << "Time taken is: " << stop - start << " seconds" << endl;
 
     cout << endl;
     cout << "Result of tests are: " << endl;
@@ -356,11 +364,11 @@ int main(int argc, char *argv[])
     std::cout << "1. Test Path: " << std::boolalpha << success << std::endl;
 
     success = false;
-    if (cost_tsp == cost) {
+    if (golbal_cost == cost) {
         success = true;
     }
     std::cout << "2. Test Cost: " << std::boolalpha << success << std::endl;
  
     return 0;
-    // g++ -std=c++17 -Xpreprocessor -fopenmp tsp-node.cpp -lomp
+    // g++ -std=c++17 -Xpreprocessor -fopenmp tsp-node-par.cpp -lomp
 }

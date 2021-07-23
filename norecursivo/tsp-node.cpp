@@ -335,7 +335,8 @@ int main(int argc, char *argv[])
     int cost_tsp = solve(costMatrix);
     cout << "Total cost is: " << cost_tsp << endl;
     auto stop = std::chrono::system_clock::now();
-    cout << "Time taken is: " << std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count() << "ns" << endl;
+    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
+    cout << "Time taken is: " << time*pow(10, -9) << " seconds" << endl;
 
     cout << endl;
     cout << "Result of tests are: " << endl;
@@ -358,5 +359,5 @@ int main(int argc, char *argv[])
     std::cout << "2. Test Cost: " << std::boolalpha << success << std::endl;
  
     return 0;
-    // g++ -std=c++17 tsp-node.cpp -DN=10
+    // g++ -std=c++17 tsp-node.cpp -DSIZE=10
 }
