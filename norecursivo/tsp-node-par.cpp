@@ -262,7 +262,7 @@ void solve(int costMatrix[N][N])
         pq.pop();
 
         // `i` stores the current city number
-        int i = *min->vertex;
+        int i = min->vertex;
 
         // if all cities are visited
         if (min->level == N - 1)
