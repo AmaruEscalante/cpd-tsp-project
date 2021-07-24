@@ -1,0 +1,1 @@
+/usr/bin/c++  -DSIZE=4 -g CMakeFiles/norecursivo.dir/tsp-dfs-v1.cpp.o -o norecursivo 
