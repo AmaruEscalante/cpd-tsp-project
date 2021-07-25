@@ -2,3 +2,8 @@
 .DS_Store
 .DS_Store
 .vscode/settings.json
+norecursivo/tsp-node.dSYM/*
+.vscode/*
+norecursivo/.idea/*
+cmake-build-debug/*
+CMakeList.txt
