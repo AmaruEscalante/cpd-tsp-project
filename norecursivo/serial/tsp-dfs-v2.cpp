@@ -173,6 +173,7 @@ int main()
         {
             for (int nbr = n - 1; nbr >= 1; nbr--)
             {
+                cout << "  For Current top: " << curr_tour->cities.back() << " to "<< nbr << endl;
                 if (feasible(curr_tour, nbr))
                 {
                     add_city(curr_tour, nbr);
