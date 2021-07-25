@@ -142,7 +142,7 @@ int main()
     stack<tour_t *> my_stack;
 
     // Initialize threads
-    omp_set_num_threads(3);
+    omp_set_num_threads(4);
 
     // Input adjacency matrix
     std::cin >> n;                 // Receive number of cities
