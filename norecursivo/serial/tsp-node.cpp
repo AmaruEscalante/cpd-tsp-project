@@ -1,3 +1,5 @@
+// Code get from: 
+// https://www.techiedelight.com/travelling-salesman-problem-using-branch-and-bound/
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -5,12 +7,12 @@
 #include <cstring>
 #include <climits>
 #include <cmath>
-// import chrono library
 #include <chrono>
-using namespace std;
+#include <iomanip>
 
-// `N` is the total number of total nodes on the graph or cities on the map
-#define SIMPLE_COST 0
+#include "../../tests/readfiles.h"
+
+using namespace std;
 
 // `N` is the total number of total nodes on the graph or cities on the map
 #ifdef SIZE
@@ -23,7 +25,7 @@ using namespace std;
 // Sentinel value for representing `INFINITY`
 #define INF INT_MAX
 
-size_t result_tsp[N + 1];
+int result_tsp[N + 1];
 
 // Function to find the minimum edge cost
 // having an end at the vertex i
@@ -213,11 +215,9 @@ int calculateCost(int reducedMatrix[N][N])
 // Function to print list of cities visited following least cost
 void printPath(vector<pair<int, int>> const &list)
 {
-    cout << "Path is: ";
+    std::cout << "Best tour is: " << endl;
     int i = 0;
-    for (i = 0; i < list.size(); i++)
-    {
-        // cout << list[i].first + 1 << " —> " << list[i].second + 1 << endl;
+    for (i = 0; i < list.size(); i++) {
         cout << list[i].first + 1 << " ";
         result_tsp[i] = list[i].first + 1;
     }
@@ -310,64 +310,26 @@ int solve(int costMatrix[N][N])
 
 int main(int argc, char *argv[])
 {
-    // cost matrix for traveling salesman problem.
-
-    freopen(argv[1], "r", stdin);
-
-    size_t n;
-    size_t result[N + 1];
-    size_t cost;
+    int n;
     int costMatrix[N][N];
 
-    std::cin >> n;
-    for (size_t i = 0; i < n; i++)
-        for (size_t j = 0; j < n; j++)
-            std::cin >> costMatrix[i][j];
+    /* Read Files and Set variables */
+    int result_to_compare[N + 1];
+    int result_cost_to_compare;
+    read_matrix_and_result_from_file(argv[1], &n, &result_cost_to_compare, costMatrix, result_to_compare);
 
-    // cout << "Result to compare: " << endl;
-    for (int i = 0; i < n + 1; i++)
-    {
-        std::cin >> result[i];
-        // cout << result[i] << " ";
-    }
-    // cout << endl;
-
-    std::cin >> cost;
-    // cout << "Cost to compare: " << cost << endl;
-
-    cout << "Start solver..." << endl;
-    auto start = std::chrono::system_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
     int cost_tsp = solve(costMatrix);
-    cout << "Total cost is: " << cost_tsp << endl;
-    auto stop = std::chrono::system_clock::now();
-    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
-    cout << "Time taken is: " << time * pow(10, -9) << " seconds" << endl;
+    auto stop = std::chrono::high_resolution_clock::now();
 
-    cout << endl;
-    cout << "Result of tests are: " << endl;
+    cout << "Best tour cost is: " << cost_tsp << endl;
 
-    bool success = false;
-    for (int i = 0; i < N + 1; i++)
-    {
-        if (result_tsp[i] == result[i])
-        {
-            success = true;
-        }
-        else
-        {
-            success = false;
-            break;
-        }
-    }
-    std::cout << "1. Test Path: " << std::boolalpha << success << std::endl;
+    // Print time taken
+    double time = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
+    print_time(time);
 
-    success = false;
-    if (cost_tsp == cost)
-    {
-        success = true;
-    }
-    std::cout << "2. Test Cost: " << std::boolalpha << success << std::endl;
+    // Test if the result is correct
+    test(result_tsp, result_to_compare, cost_tsp, result_cost_to_compare);
 
     return 0;
-    // g++ -std=c++17 tsp-node.cpp -DSIZE=10
 }

@@ -1,4 +1,4 @@
-//
+// Peter Pacheco - An Introduction to Parallel Programming
 // Travelling Salesman Problem (TSP) with depth-first search first iterative version.
 //
 // for (city = n − 1; city >= 1; city −− )
@@ -35,6 +35,11 @@
 #include <stack>
 #include <climits>
 #include <chrono>
+#include <cmath>
+#include <iomanip>
+
+#include "../../tests/readfiles.h"
+
 // `N` is the total number of total nodes on the graph or cities on the map
 #ifdef SIZE
 #undef N
@@ -110,17 +115,17 @@ void add_city(vector<int> &tour, int city)
     //    }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    /* Read Files and Set variables */
+    int result_to_compare[N + 1];
+    int result_cost_to_compare;
+    read_matrix_and_result_from_file(argv[1], &n, &result_cost_to_compare, costMatrix, result_to_compare);
+
+    /* Create stack */
     stack<int> stack;
     vector<int> curr_tour;
     int city;
-
-    // Input adjacency matrix
-    std::cin >> n;                 // Receive number of cities
-    for (size_t i = 0; i < n; i++) // Initialize adjacency matrix
-        for (size_t j = 0; j < n; j++)
-            std::cin >> costMatrix[i][j];
 
     auto start = std::chrono::high_resolution_clock::now();
     // Initialize tree (best tour)
@@ -168,17 +173,26 @@ int main()
         }
     }
     auto stop = std::chrono::high_resolution_clock::now();
-    // Print best tour
-    std::cout << "Final path is :";
-    for (int i = 0; i < n; i++)
-    {
-        std::cout << best[i] << " ";
-    }
-    std::cout << std::endl;
 
-    std::cout << "Cost: " << best_cost << std::endl;
+    int result_tsp[N + 1]; // use to set the result vecto to array
+
+    // Print best tour
+    std::cout << "Best tour is: " << endl;
+    for (int i = 0; i < n; i++) {
+        std::cout << best[i] << " ";
+        result_tsp[i] = best[i];
+    }
+    std::cout << best[0] << " ";
+    result_tsp[N] = best[0];
+    std::cout << std::endl;
+    std::cout << "Best tour cost is: " << best_cost << std::endl;
+
     // Print time taken
-    std::cout << "Time taken: " << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms" << std::endl;
+    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
+    print_time(time);
+
+    // Test if the result is correct
+    test(result_tsp, result_to_compare, best_cost, result_cost_to_compare);
 
     return 0;
 }

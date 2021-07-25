@@ -1,4 +1,4 @@
-//
+// Peter Pacheco - An Introduction to Parallel Programming
 // Travelling Salesman Problem (TSP) with depth-first search second iterative version.
 //
 // Push copy(stack, tour); // Tour that visits only the hometown
@@ -43,6 +43,10 @@
 #include <stack>
 #include <climits>
 #include <chrono>
+#include <cmath>
+#include <iomanip>
+
+#include "../../tests/readfiles.h"
 
 // `N` is the total number of total nodes on the graph or cities on the map
 #ifdef SIZE
@@ -137,16 +141,17 @@ bool feasible(tour_t *&tour, int nbr)
     return lower_cost;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    /* Read Files and Set variables */
+    int result_to_compare[N + 1];
+    int result_cost_to_compare;
+    read_matrix_and_result_from_file(argv[1], &n, &result_cost_to_compare, costMatrix, result_to_compare);
+
+    /* Create stack */
     stack<tour_t *> stack;
 
-    // Input adjacency matrix
-    std::cin >> n;                 // Receive number of cities
-    for (size_t i = 0; i < n; i++) // Initialize adjacency matrix
-        for (size_t j = 0; j < n; j++)
-            std::cin >> costMatrix[i][j];
-
+    auto start = std::chrono::high_resolution_clock::now();
     // Initialize best tour
     vector<int> best_tour_root;
     best_tour = newTour(best_tour_root, INT_MAX);
@@ -173,7 +178,6 @@ int main()
         {
             for (int nbr = n - 1; nbr >= 1; nbr--)
             {
-                cout << "  For Current top: " << curr_tour->cities.back() << " to "<< nbr << endl;
                 if (feasible(curr_tour, nbr))
                 {
                     add_city(curr_tour, nbr);
@@ -184,12 +188,27 @@ int main()
         }
         delete curr_tour;
     }
+    auto stop = std::chrono::high_resolution_clock::now();
+
+    int result_tsp[N + 1]; // use to set the result vecto to array
 
     // Output best tour
-    std::cout << best_tour->cost << std::endl;
-    for (size_t i = 0; i < best_tour->cities.size(); i++)
+    std::cout << "Best tour is: " << endl;
+    for (size_t i = 0; i < best_tour->cities.size(); i++) {
         std::cout << best_tour->cities[i] << " ";
+        result_tsp[i] = best_tour->cities[i];
+    }
+    std::cout << best_tour->cities[0] << " ";
+    result_tsp[N] = best_tour->cities[0];
     std::cout << std::endl;
+    std::cout << "Best tour cost is: " << best_tour->cost << std::endl;
+
+    // Print time taken
+    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
+    print_time(time);
+
+    // Test if the result is correct
+    test(result_tsp, result_to_compare, best_tour->cost, result_cost_to_compare);
 
     return 0;
 }
