@@ -1,4 +1,4 @@
-//
+// Peter Pacheco - An Introduction to Parallel Programming
 // Travelling Salesman Problem (TSP) with depth-first search second iterative version using OpenMP.
 //
 // Partition tree(my rank, my stack);
@@ -42,6 +42,8 @@
 #include <climits>
 #include <chrono>
 #include <omp.h>
+
+#include "../../tests/readfiles.h"
 
 // `N` is the total number of total nodes on the graph or cities on the map
 #ifdef SIZE
@@ -136,19 +138,20 @@ bool feasible(tour_t *&tour, int nbr)
     return lower_cost;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+
+    /* Read Files and Set variables */
+    int result_to_compare[N + 1];
+    int result_cost_to_compare;
+    read_matrix_and_result_from_file(argv[1], &n, &result_cost_to_compare, costMatrix, result_to_compare);
+
+    /* Create stack */
     stack<tour_t *> root_stack;
     stack<tour_t *> my_stack;
 
     // Initialize threads
     omp_set_num_threads(4);
-
-    // Input adjacency matrix
-    std::cin >> n;                 // Receive number of cities
-    for (size_t i = 0; i < n; i++) // Initialize adjacency matrix
-        for (size_t j = 0; j < n; j++)
-            std::cin >> costMatrix[i][j];
 
     // Initialize best tour
     vector<int> best_tour_root;
@@ -159,6 +162,8 @@ int main()
     root_cities.push_back(0);
     tour_t *root_tour = newTour(root_cities, 0);
     //root_stack.push(root);
+
+    double start = omp_get_wtime();
 
     // Initialize thread-local best tour
 #pragma omp parallel private(my_stack)
@@ -203,11 +208,28 @@ int main()
             delete curr_tour;
         }
     }
+
+    double stop = omp_get_wtime();
+
+    int result_tsp[N + 1]; // use to set the result vecto to array
+
     // Output best tour
-    std::cout << best_tour->cost << std::endl;
-    for (size_t i = 0; i < best_tour->cities.size(); i++)
+    std::cout << "Best tour is: " << endl;
+    for (size_t i = 0; i < best_tour->cities.size(); i++) {
         std::cout << best_tour->cities[i] << " ";
+        result_tsp[i] = best_tour->cities[i];
+    }
+    std::cout << best_tour->cities[0] << " ";
+    result_tsp[N] = best_tour->cities[0];
     std::cout << std::endl;
+    std::cout << "Best tour cost is: " << best_tour->cost << std::endl;
+
+    // Print time taken
+    double time = stop - start;
+    print_time(time);
+
+    // Test if the result is correct
+    test(result_tsp, result_to_compare, best_tour->cost, result_cost_to_compare);
 
     return 0;
 }
