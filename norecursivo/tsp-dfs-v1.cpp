@@ -33,7 +33,8 @@
 #include <vector>
 #include <algorithm>
 #include <stack>
-
+#include <climits>
+#include <chrono>
 // `N` is the total number of total nodes on the graph or cities on the map
 #ifdef SIZE
 #undef N
@@ -44,13 +45,75 @@
 
 using namespace std;
 
+int n;
+int costMatrix[N][N];
+vector<int> best;
+int best_cost = INT_MAX;
+
+//
+bool feasible(vector<int> &tour, int nbr)
+{
+    // Feasible if city has already been visited
+    // or it can lead to a least-cost tour
+    // iterator of tour
+    bool lower_cost;
+
+    if (find(tour.begin(), tour.end(), nbr) != tour.end())
+    {
+        return false;
+    }
+
+    // Calculate the cost of the tour so far
+    int cost = 0;
+    for (int i = 0; i < tour.size() - 1; i++)
+    {
+        cost += costMatrix[tour[i]][tour[i + 1]];
+    }
+
+    int cost_to_nbr = costMatrix[tour[tour.size() - 1]][nbr];
+    // If the cost is less than the best cost,
+    // then the tour is feasible
+    lower_cost = (cost + cost_to_nbr < best_cost) ? true : false;
+
+    return lower_cost;
+}
+
+bool best_tour(vector<int> &tour)
+{
+    // Calculate the cost of the tour so far and check if it is better than the best cost
+    int cost = 0;
+    for (int i = 0; i < tour.size() - 1; i++)
+    {
+        cost += costMatrix[tour[i]][tour[i + 1]];
+    }
+
+    // Add cost from last node to root node
+    cost += costMatrix[tour[tour.size() - 1]][0];
+
+    if (cost < best_cost)
+    {
+        best_cost = cost;
+        return true;
+    }
+    else
+        return false;
+}
+
+void add_city(vector<int> &tour, int city)
+{
+    //    if (find(tour.begin(), tour.end(), city) != tour.end())
+    //    {
+    //        return;
+    //    }
+    //    else{
+    tour.push_back(city);
+    //    }
+}
+
 int main()
 {
-    vector<int> best;
     stack<int> stack;
     vector<int> curr_tour;
-    int n;
-    int costMatrix[N][N];
     int city;
 
     // Input adjacency matrix
@@ -59,12 +122,13 @@ int main()
         for (size_t j = 0; j < n; j++)
             std::cin >> costMatrix[i][j];
 
+    auto start = std::chrono::high_resolution_clock::now();
     // Initialize tree (best tour)
     for (city = n - 1; city >= 1; city--)
     {
         stack.push(city);
     }
-
+    curr_tour.push_back(0);
     while (!stack.empty())
     {
         // Print city
@@ -79,14 +143,15 @@ int main()
         else
         {
             // Add city to tour
-            curr_tour.push_back(city);
+            add_city(curr_tour, city);
             // If tour is complete, check if it's the best tour
             if (curr_tour.size() == n)
             {
-                if (best.size() == 0 || costMatrix[curr_tour[0]][curr_tour[n - 1]] < costMatrix[best[0]][best[n - 1]])
+                if (best_tour(curr_tour))
                 {
                     best = curr_tour;
                 }
+                curr_tour.pop_back();
             }
             else
             {
@@ -94,7 +159,7 @@ int main()
                 // Add cities to stack
                 for (int nbr = n - 1; nbr >= 1; nbr--)
                 {
-                    if (costMatrix[curr_tour[nbr - 1]][curr_tour[nbr]] < costMatrix[curr_tour[nbr]][curr_tour[nbr - 1]])
+                    if (feasible(curr_tour, nbr))
                     {
                         stack.push(nbr);
                     }
@@ -102,12 +167,18 @@ int main()
             }
         }
     }
-
+    auto stop = std::chrono::high_resolution_clock::now();
     // Print best tour
+    std::cout << "Final path is :";
     for (int i = 0; i < n; i++)
     {
         std::cout << best[i] << " ";
     }
     std::cout << std::endl;
+
+    std::cout << "Cost: " << best_cost << std::endl;
+    // Print time taken
+    std::cout << "Time taken: " << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms" << std::endl;
+
     return 0;
 }
