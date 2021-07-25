@@ -7,3 +7,4 @@ norecursivo/tsp-node.dSYM/*
 norecursivo/.idea/*
 cmake-build-debug/*
 CMakeList.txt
+build/
