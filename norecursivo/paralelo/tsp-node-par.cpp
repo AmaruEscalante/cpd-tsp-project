@@ -6,6 +6,8 @@
 #include <climits>
 #include <omp.h>
 
+#include "readfiles.h"
+
 using namespace std;
 
 // `N` is the total number of total nodes on the graph or cities on the map
@@ -16,14 +18,14 @@ using namespace std;
 #undef N
 #define N SIZE
 #else
-#define N 10
+#define N 4
 #endif
 
 // Sentinel value for representing `INFINITY`
 #define INF INT_MAX
 
 size_t result_tsp[N + 1];
-int golbal_cost;
+int global_cost;
 
 // Function to find the minimum edge cost
 // having an end at the vertex i
@@ -204,7 +206,7 @@ int calculateCost(int reducedMatrix[N][N])
     for (int i = 0; i < N; i++)
     {
         cost += (row[i] != INT_MAX) ? row[i] : 0,
-            cost += (col[i] != INT_MAX) ? col[i] : 0;
+                cost += (col[i] != INT_MAX) ? col[i] : 0;
     }
 
     return cost;
@@ -234,11 +236,13 @@ struct comp
     }
 };
 
+priority_queue<Node *, vector<Node *>, comp> global_pq;
+
 // Function to solve the traveling salesman problem using Branch and Bound
-int solve(int costMatrix[N][N])
+void solve(int costMatrix[N][N])
 {
     // Create a priority queue to store live nodes of the search tree
-    priority_queue<Node *, vector<Node *>, comp> pq;
+    priority_queue<Node *, vector<Node *>, comp> my_pq;
 
     vector<pair<int, int>> v;
 
@@ -250,138 +254,135 @@ int solve(int costMatrix[N][N])
     root->cost = calculateCost(root->reducedMatrix);
 
     // Add root to the list of live nodes
-    pq.push(root);
+    // pq.push(root);
 
-    // Finds a live node with the least cost, adds its children to the list of
-    // live nodes, and finally deletes it from the list
-    Node *min;
-#pragma omp parallel shared(min)
-#pragma single
-    while (!pq.empty())
+    // Initialize thread-local best tour
+#pragma omp parallel private(my_pq)
     {
-        // Find a live node with the least estimated cost
-        min = pq.top();
-
-        // The found node is deleted from the list of live nodes
-        pq.pop();
-
-        int i = 0;
-#pragma omp task
-        // `i` stores the current city number
-        i = min->vertex;
-
-        // if all cities are visited
-        if (min->level == N - 1)
+#pragma omp for
+        for (int j = 1; j < N; j++)
         {
-            // return to starting city
-            min->path.push_back(make_pair(i, 0));
+            // create a child node and calculate its cost
+            Node *local_node = newNode(root->reducedMatrix, v, 1, 0, j);
 
-            // print list of cities visited
-            //printPath(min->path);
+            /* Cost of the child =
+                cost of the parent node +
+                cost of the edge(i, j) +
+                lower bound of the path starting at node j
+            */
 
-            // return optimal cost
-            golbal_cost = min->cost;
+            local_node->cost = root->cost + root->reducedMatrix[0][j] + calculateCost(local_node->reducedMatrix);
+            my_pq.push(local_node);
         }
 
-        // do for each child of min
-        // `(i, j)` forms an edge in a space tree
-
-        // paralel for with task openmp
-
-        for (int j = 0; j < N; j++)
+        // Finds a live node with the least cost, adds its children to the list of
+        // live nodes, and finally deletes it from the list
+        while (!my_pq.empty())
         {
-            // printf("Thread: %d\n", omp_get_thread_num());
-            if (min->reducedMatrix[i][j] != INF)
+            // Find a live node with the least estimated cost
+            Node *min = my_pq.top();
+
+            // The found node is deleted from the list of live nodes
+            my_pq.pop();
+
+            int i = 0;
+
+            // `i` stores the current city number
+            i = min->vertex;
+
+            // if all cities are visited
+            if (min->level == N - 1)
             {
-                // create a child node and calculate its cost
-                Node *child = newNode(min->reducedMatrix, min->path, min->level + 1, i, j);
-
-                /* Cost of the child =
-                    cost of the parent node +
-                    cost of the edge(i, j) +
-                    lower bound of the path starting at node j
-                */
-
-                child->cost = min->cost + min->reducedMatrix[i][j] + calculateCost(child->reducedMatrix);
-
-                // Add a child to the list of live nodes
-
-                // openmp critical region
 #pragma omp critical
                 {
-                    pq.push(child);
+                    /* copy all node struct to another, beacuse is deleted */
+                    Node *node_tmp = new Node;
+                    node_tmp->path = min->path;
+                    memcpy(node_tmp->reducedMatrix, min->reducedMatrix, sizeof min->reducedMatrix);
+                    node_tmp->cost = min->cost;
+                    node_tmp->vertex = min->vertex;
+                    node_tmp->level = min->level;
+
+                    global_pq.push(node_tmp);
+                }
+                // // return to starting city
+                // min->path.push_back(make_pair(i, 0));
+
+                // // print list of cities visited
+                // printPath(min->path);
+
+                // // return optimal cost
+                // global_cost = min->cost;
+
+            }
+
+            // do for each child of min
+            // `(i, j)` forms an edge in a space tree
+
+            for (int j = 0; j < N; j++)
+            {
+                // printf("Thread: %d\n", omp_get_thread_num());
+                if (min->reducedMatrix[i][j] != INF)
+                {
+                    // create a child node and calculate its cost
+                    Node *child = newNode(min->reducedMatrix, min->path, min->level + 1, i, j);
+
+                    /* Cost of the child =
+                        cost of the parent node +
+                        cost of the edge(i, j) +
+                        lower bound of the path starting at node j
+                    */
+
+                    child->cost = min->cost + min->reducedMatrix[i][j] + calculateCost(child->reducedMatrix);
+
+                    // Add a child to the list of live nodes
+                    my_pq.push(child);
                 }
             }
-        }
 
-        // free node as we have already stored edges `(i, j)` in vector.
-        // So no need for a parent node while printing the solution.
-        delete min;
+            // free node as we have already stored edges `(i, j)` in vector.
+            // So no need for a parent node while printing the solution.
+            delete min;
+        }
     }
-    return 0;
+
 }
 
 int main(int argc, char *argv[])
 {
-    // cost matrix for traveling salesman problem.
-
     // initialize number of threads for paralel programming with openmp
     omp_set_num_threads(4);
 
-    freopen(argv[1], "r", stdin);
-
-    size_t n;
-    size_t result[N + 1];
-    size_t cost;
+    int n;
     int costMatrix[N][N];
 
-    std::cin >> n;
-    for (size_t i = 0; i < n; i++)
+    // Input adjacency matrix
+    std::cin >> n;                 // Receive number of cities
+    for (size_t i = 0; i < n; i++) // Initialize adjacency matrix
         for (size_t j = 0; j < n; j++)
             std::cin >> costMatrix[i][j];
-
-    // cout << "Result to compare: " << endl;
-    for (int i = 0; i < n + 1; i++)
-    {
-        std::cin >> result[i];
-        // cout << result[i] << " ";
-    }
-    // cout << endl;
-
-    std::cin >> cost;
-    // cout << "Cost to compare: " << cost << endl;
-
-    cout << "Start solver..." << endl;
+    cout << n << endl;
     double start = omp_get_wtime();
     solve(costMatrix);
-    cout << "Total cost is: " << golbal_cost << endl;
     double stop = omp_get_wtime();
-    cout << "Time taken is: " << stop - start << " seconds" << endl;
 
-    cout << endl;
-    cout << "Result of tests are: " << endl;
+    // Find a live node with the least estimated cost
+    Node *best_path = global_pq.top();
 
-    bool success = false;
-    for (int i = 0; i < N + 1; i++)
-    {
-        if (result_tsp[i] == result[i])
-        {
-            success = true;
-        }
-        else
-        {
-            success = false;
-            break;
-        }
-    }
-    std::cout << "1. Test Path: " << std::boolalpha << success << std::endl;
+    // The found node is deleted from the list of live nodes
+    global_pq.pop();
 
-    success = false;
-    if (golbal_cost == cost)
-    {
-        success = true;
-    }
-    std::cout << "2. Test Cost: " << std::boolalpha << success << std::endl;
+    // return to starting city
+    // min->path.push_back(make_pair(i, 0));
+
+    // print list of cities visited
+    printPath(best_path->path);
+
+    cout << "Best tour cost is: " << best_path->cost << endl;
+
+    // Print time taken
+    double time = stop - start;
+    print_time(time);
 
     return 0;
     // g++ -std=c++17 -Xpreprocessor -fopenmp tsp-node-par.cpp -lomp
