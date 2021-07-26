@@ -8,3 +8,4 @@ norecursivo/.idea/*
 cmake-build-debug/*
 CMakeList.txt
 build/
+norecursivo/paralelo/tsp-pthread
