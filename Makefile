@@ -5,10 +5,10 @@ FOLDER = build
 LIST:=$(shell ls tests/matrices/*.txt | cut -f 1 -d '.' | cut -d_ -f2-)
 FILES:=$(shell ls tests/matrices/*.txt | cut -d/ -f2-)
 
-all: clean buildsec run
+allsec: clean buildsec runtest
 
 debug:
-	g++ -std=c++17 -Xpreprocessor -fopenmp norecursivo/par-dfs-v2-tsp.cpp -lomp -DSIZE=100
+	g++ -std=c++17 -Xpreprocessor -fopenmp norecursivo/paralelo/par-dfs-v2-tsp.cpp -lomp -DSIZE=100
 
 buildsec:
 	rm -rf ${FOLDER}/tests
@@ -20,11 +20,11 @@ buildpar:
 	rm -rf ${FOLDER}/tests
 	mkdir -p ${FOLDER}/tests
 	$(info    Compile files)
-	for number in $(LIST) ; do ${CC} -std=${V} norecursivo/tsp-node-par.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
+	for number in $(LIST) ; do ${CC} -std=${V} norecursivo/paralelo/par-dfs-v2-tsp.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
 
 runtest:
 	$(info    Run programs)
-	./tests/run.sh > run.log
+	./tests/run.sh > tests/run.log
 
 runparser:
 	$(info    Compile main.cpp in src/ folder)
