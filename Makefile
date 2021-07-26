@@ -2,28 +2,36 @@ CC = g++ # Flag for implicit rules
 V = c++17
 CFLAGS = -g # Flag for implicit rules. Turn on debug info
 FOLDER = build
-LIST:=$(shell ls tests/*.txt | cut -f 1 -d '.' | cut -d_ -f2-)
-FILES:=$(shell ls tests/*.txt | cut -d/ -f2-)
+LIST:=$(shell ls tests/matrices/*.txt | cut -f 1 -d '.' | cut -d_ -f2-)
+FILES:=$(shell ls tests/matrices/*.txt | cut -d/ -f2-)
 
 all: clean buildsec run
 
+debug:
+	g++ -std=c++17 -Xpreprocessor -fopenmp norecursivo/par-dfs-v2-tsp.cpp -lomp -DSIZE=100
+
 buildsec:
-	rm -rf ${FOLDER}
-	mkdir ${FOLDER}
+	rm -rf ${FOLDER}/tests
+	mkdir -p ${FOLDER}/tests
 	$(info    Compile files)
-	@echo $(LIST)
-	for number in $(LIST) ; do ${CC} -std=${V} norecursivo/tsp-node.cpp -o ${FOLDER}/main-$$number.out -DSIZE=$$number ; done
+	for number in $(LIST) ; do ${CC} -std=${V} norecursivo/serial/tsp-dfs-v2.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
 
 buildpar:
-	rm -rf ${FOLDER}
-	mkdir ${FOLDER}
+	rm -rf ${FOLDER}/tests
+	mkdir -p ${FOLDER}/tests
 	$(info    Compile files)
-	@echo $(LIST)
-	for number in $(LIST) ; do ${CC} -std=${V} norecursivo/tsp-node-par.cpp -o ${FOLDER}/main-$$number.out -DSIZE=$$number ; done
+	for number in $(LIST) ; do ${CC} -std=${V} norecursivo/tsp-node-par.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
 
-run:
+runtest:
 	$(info    Run programs)
 	./tests/run.sh > run.log
+
+runparser:
+	$(info    Compile main.cpp in src/ folder)
+	mkdir -p ${FOLDER}/osx
+	g++ --std=c++11 -g src/main.cpp src/Tester/*.cpp -o ${FOLDER}/osx/main.out -w
+	$(info    Running Parser)
+	${FOLDER}/osx/main.out
 
 clean:
 	rm -rf ${FOLDER}
