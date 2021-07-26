@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
 
     // Print time taken
     double time = stop - start;
-    print_time(time);
+    print_time(time, true);
 
     // Test if the result is correct
     test(result_tsp, result_to_compare, best_tour->cost, result_cost_to_compare);
