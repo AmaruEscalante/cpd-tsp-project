@@ -7,7 +7,7 @@
 
 # To compile
 # module load gcc/5.5.0
-# g++ -std=c++17 norecursivo/serial/tsp-dfs-v2.cpp -o tsp-dfs-v2 -DSIZE=20
+# g++ -std=c++17 ../norecursivo/serial/tsp-dfs-v2.cpp -o tsp-dfs-v2 -DSIZE=20
 # module unload gcc/5.5.0
 
 module load gcc/5.5.0
