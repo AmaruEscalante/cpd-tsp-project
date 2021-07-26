@@ -1,8 +1,7 @@
-// C++ program to solve Traveling Salesman Problem
-// using Branch and Bound.
+// C++ program to solve Traveling Salesman Problemusing Branch and Bound.
 // Geek for Geeks
+// https://www.geeksforgeeks.org/traveling-salesman-problem-using-branch-and-bound-2/
 #include <iostream>
-// #include <omp.h>
 #include <cmath>
 #include <unistd.h>
 using namespace std;
@@ -119,10 +118,6 @@ void TSPRec(int adj[N][N], int curr_bound, int curr_weight,
             curr_weight += adj[curr_path[level - 1]][i]; // Add weight of edge
             printf("   Curr weight: %d\n", curr_weight);
 
-            // Print all values in current path,
-            // for (int j = 0; j < level; j++)
-            //     printf("%d ", curr_path[j]);
-            // Print omp task id
             // different computation of curr_bound for
             // level 2 from the other levels
             if (level == 1)
