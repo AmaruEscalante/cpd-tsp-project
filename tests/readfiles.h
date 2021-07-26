@@ -40,11 +40,18 @@ void read_matrix_and_result_from_file(const char *filename, int *n, int *cost, i
     cout << "----------------------------------------- " << endl;
 }
 
-void print_time(double time){
+void print_time(double time, bool par = false){
     cout << "----------------------------------------- " << endl;
-    cout << "Time taken is: " << time << " nano seconds" << endl;
-    std::cout << std::fixed << std::setprecision(9);
-    cout << "Time taken is: " << time * pow(10, -9) << " seconds" << endl;
+    if (par) {
+        std::cout << std::fixed << std::setprecision(9);
+        cout << "Time taken is: " << time * pow(10, -9) << " nano seconds" << endl;
+        cout << "Time taken is: " << time << " seconds" << endl;
+    } else {
+        cout << "Time taken is: " << time << " nano seconds" << endl;
+        std::cout << std::fixed << std::setprecision(9);
+        cout << "Time taken is: " << time * pow(10, -9) << " seconds" << endl;
+    }
+    
     cout << "----------------------------------------- " << endl;
 }
 
