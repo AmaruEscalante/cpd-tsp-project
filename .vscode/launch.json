@@ -1,27 +1,39 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "(gdb) Launch",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${fileDirname}/tsp-node",
-      "args": ["input.txt"],
-      "stopAtEntry": false,
-      "cwd": "${fileDirname}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
-    }
-  ]
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Simulate",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}\\build\\win\\main.exe",
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": true,
+			"MIMode": "gdb",
+			"miDebuggerPath": "gdb.exe",
+			"preLaunchTask": "Build",
+			"linux": {
+				"program": "${workspaceRoot}/build/lin/main.out",
+				"setupCommands": [
+					{
+						"description": "Habilitar la impresión con sangría para gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					}
+				]
+			},
+			"osx": {
+				"program": "${workspaceRoot}/build/osx/main.out",
+				"MIMode": "lldb" // lldb | gdb
+			},
+			"windows": {
+				"program": "${workspaceRoot}\\build\\win\\main.exe",
+				"miDebuggerPath": "gdb.exe"
+			}
+		}
+	]
 }
