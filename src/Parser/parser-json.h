@@ -105,13 +105,13 @@ class DistrictParser : JsonParser {
         tsp_par();
 
         /* Print Result Path with Districts Names */
-        // cout << "Best tour by name is:" << endl;
-        // int i = 0;
-        // for (i = 0; i < n; i++) {
-        //     cout << districts_origin.at(result_path[i]).name << " -> ";
-        // }
-        // cout << districts_origin.at(result_path[i]).name;
-        // cout << endl;
+        cout << "Best tour by name is:" << endl;
+        int i = 0;
+        for (i = 0; i < n; i++) {
+            cout << districts_origin.at(result_path[i]).name << " -> ";
+        }
+        cout << districts_origin.at(result_path[i]).name;
+        cout << endl;
         cout << "-----------------------------------------" << endl;
     }
 
