@@ -55,6 +55,7 @@ struct tour_t;
 
 int n = 0;
 int costMatrix[][N];
+int result_path[N];
 tour_t *best_tour;
 
 // tour data structure that stores
@@ -181,10 +182,13 @@ int tsp()
 
     // Output best tour
     std::cout << "Best tour is: " << endl;
-    for (size_t i = 0; i < best_tour->cities.size(); i++) {
+    int i = 0;
+    for (i = 0; i < best_tour->cities.size(); i++) {
         std::cout << best_tour->cities[i] << " ";
+        result_path[i] = best_tour->cities[i];
     }
     std::cout << best_tour->cities[0] << " ";
+    result_path[i] = best_tour->cities[0];
     std::cout << std::endl;
     std::cout << "Best tour cost is: " << best_tour->cost << std::endl;
 
