@@ -1,0 +1,176 @@
+Reading file: ../tests/matrices/geekforgeeks_4.txt
+Number of elements in matrix is: 4
+Result to compare is: 
+1 3 4 2 1 
+Cost to compare is: 80
+----------------------------------------- 
+Best tour is: 
+0 1 3 2 0 
+Best tour cost is: 80
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.000121374 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/video_5.txt
+Number of elements in matrix is: 5
+Result to compare is: 
+0 3 1 4 2 0 
+Cost to compare is: 28
+----------------------------------------- 
+Best tour is: 
+0 3 1 4 2 0 
+Best tour cost is: 28
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.000129793 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Reading file: ../tests/matrices/test_6.txt
+Number of elements in matrix is: 6
+Result to compare is: 
+1 3 6 2 4 5 1 
+Cost to compare is: 28
+----------------------------------------- 
+Best tour is: 
+0 4 3 1 5 2 0 
+Best tour cost is: 28
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.000213776 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/matrix_10.txt
+Number of elements in matrix is: 10
+Result to compare is: 
+1 8 2 6 3 5 7 9 10 4 1 
+Cost to compare is: 169
+----------------------------------------- 
+Best tour is: 
+0 7 1 5 2 4 6 8 9 3 0 
+Best tour cost is: 169
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.003134128 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/matrix_12.txt
+Number of elements in matrix is: 12
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 1232 
+Cost to compare is: 32711
+----------------------------------------- 
+Best tour is: 
+0 11 2 3 1 5 7 4 8 9 6 10 0 
+Best tour cost is: 159
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.073641509 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: false
+Reading file: ../tests/matrices/matrix_13.txt
+Number of elements in matrix is: 13
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 1232 
+Cost to compare is: 32694
+----------------------------------------- 
+Best tour is: 
+0 3 9 10 12 6 2 4 5 8 7 1 11 0 
+Best tour cost is: 253
+----------------------------------------- 
+Time taken is: 0.000000001 nano seconds
+Time taken is: 1.126175050 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: false
+Reading file: ../tests/matrices/matrix_14.txt
+Number of elements in matrix is: 14
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 1232 
+Cost to compare is: 32597
+----------------------------------------- 
+Best tour is: 
+0 10 2 7 4 5 3 11 13 9 12 1 8 6 0 
+Best tour cost is: 209
+----------------------------------------- 
+Time taken is: 0.000000001 nano seconds
+Time taken is: 1.146653920 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: false
+Reading file: ../tests/matrices/matrix_15.txt
+Number of elements in matrix is: 15
+Result to compare is: 
+1 7 15 6 9 2 3 10 5 13 12 8 14 4 11 1 
+Cost to compare is: 214
+----------------------------------------- 
+Best tour is: 
+0 10 3 13 7 11 12 4 9 2 1 8 5 14 6 0 
+Best tour cost is: 214
+----------------------------------------- 
+Time taken is: 0.000000010 nano seconds
+Time taken is: 9.819248442 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/matrix_16.txt
+Number of elements in matrix is: 16
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 
+Cost to compare is: 123
+----------------------------------------- 
+Best tour is: 
+0 15 8 9 7 5 12 10 2 1 3 4 14 6 13 11 0 
+Best tour cost is: 186
+----------------------------------------- 
+Time taken is: 0.000000005 nano seconds
+Time taken is: 5.230864875 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: false
+Reading file: ../tests/matrices/matrix_17.txt
+Number of elements in matrix is: 17
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 
+Cost to compare is: 123
+----------------------------------------- 
+Best tour is: 
+0 16 11 1 8 5 2 12 14 3 4 15 7 9 6 10 13 0 
+Best tour cost is: 187
+----------------------------------------- 
+Time taken is: 0.000000017 nano seconds
+Time taken is: 17.018630214 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: false
+Reading file: ../tests/matrices/matrix_20.txt.bk
+Number of elements in matrix is: 20
+Result to compare is: 
+1 13 7 17 15 6 12 3 19 20 8 11 4 18 10 9 2 5 14 16 1 
+Cost to compare is: 213
+----------------------------------------- 
+Best tour is: 
+0 15 13 4 1 8 9 17 3 10 7 19 18 2 11 5 14 16 6 12 0 
+Best tour cost is: 213
+----------------------------------------- 
+Time taken is: 0.000001485 nano seconds
+Time taken is: 1484.931980003 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
