@@ -6,25 +6,14 @@
 #include <climits>
 #include <omp.h>
 
-#include "readfiles.h"
+#include "../../tests/readfiles.h"
 
 using namespace std;
-
-// `N` is the total number of total nodes on the graph or cities on the map
-#define SIMPLE_COST 0
-
-// `N` is the total number of total nodes on the graph or cities on the map
-#ifdef SIZE
-#undef N
-#define N SIZE
-#else
-#define N 4
-#endif
 
 // Sentinel value for representing `INFINITY`
 #define INF INT_MAX
 
-size_t result_tsp[N + 1];
+int result_tsp[N + 1];
 int global_cost;
 
 // Function to find the minimum edge cost
@@ -356,12 +345,11 @@ int main(int argc, char *argv[])
     int n;
     int costMatrix[N][N];
 
-    // Input adjacency matrix
-    std::cin >> n;                 // Receive number of cities
-    for (size_t i = 0; i < n; i++) // Initialize adjacency matrix
-        for (size_t j = 0; j < n; j++)
-            std::cin >> costMatrix[i][j];
-    cout << n << endl;
+    /* Read Files and Set variables */
+    int result_to_compare[N + 1];
+    int result_cost_to_compare;
+    read_matrix_and_result_from_file(argv[1], &n, &result_cost_to_compare, costMatrix, result_to_compare);
+
     double start = omp_get_wtime();
     solve(costMatrix);
     double stop = omp_get_wtime();
@@ -382,7 +370,10 @@ int main(int argc, char *argv[])
 
     // Print time taken
     double time = stop - start;
-    print_time(time);
+    print_time(time, true);
+
+    // Test if the result is correct
+    test(result_tsp, result_to_compare, best_path->cost, result_cost_to_compare);
 
     return 0;
     // g++ -std=c++17 -Xpreprocessor -fopenmp tsp-node-par.cpp -lomp
