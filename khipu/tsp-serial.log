@@ -173,4 +173,8 @@ Time taken is: 4512.622817671 seconds
 ----------------------------------------- 
 Result of tests are: 
 1. Test Path: false
+<<<<<<< HEAD
 2. Test Cost: true
+=======
+2. Test Cost: true
+>>>>>>> a48603331903d9ad2bdee1edf9f7b7b8658028b6
