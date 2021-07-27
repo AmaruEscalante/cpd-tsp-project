@@ -194,7 +194,7 @@ int tsp()
 
     // Print time taken
     auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
-    print_time(time);
+    print_time(time, false);
 
     return 0;
 }
