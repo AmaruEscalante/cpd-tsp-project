@@ -46,8 +46,8 @@
 #include <cmath>
 #include <iomanip>
 
-#include "../../tests/readfiles.h"
 #include "tsp.h"
+#include "utils.h"
 
 using namespace std;
 
