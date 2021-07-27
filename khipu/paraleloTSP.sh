@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH -J tsp-par
-#SBATCH -N 1 # poner mas porque se va a ejecutar mas veces
+#SBATCH -N 4 # poner mas porque se va a ejecutar mas veces
 #SBATCH --tasks-per-node=8 # Cantidad de CPUs
 #SBATCH --mem=1GB
-#SBATCH --output=tsp-par-20.log
+#SBATCH --output=tsp-par.log
 
 # To compile
 module load gcc/5.5.0

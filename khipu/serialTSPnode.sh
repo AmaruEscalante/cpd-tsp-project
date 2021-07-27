@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH -J serial-TSP-node
-#SBATCH -N 1
+#SBATCH -N 4
 #SBATCH --tasks-per-node=8
 #SBATCH --mem=1GB
-#SBATCH --output=tsp-20.log
+#SBATCH --output=tsp-serial-node.log
 
 # To compile
 module load gcc/5.5.0
