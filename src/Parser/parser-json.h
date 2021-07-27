@@ -85,7 +85,7 @@ class DistrictParser : JsonParser {
         }        
     };
 
-    void execute_TSP() {
+    void execute_TSP_secuencial() {
         /* Execute TSP */
         tsp();
 
@@ -97,6 +97,21 @@ class DistrictParser : JsonParser {
         }
         cout << districts_origin.at(result_path[i]).name;
         cout << endl;
+        cout << "-----------------------------------------" << endl;
+    }
+
+    void execute_TSP_paralelo() {
+        /* Execute TSP */
+        tsp_par();
+
+        /* Print Result Path with Districts Names */
+        // cout << "Best tour by name is:" << endl;
+        // int i = 0;
+        // for (i = 0; i < n; i++) {
+        //     cout << districts_origin.at(result_path[i]).name << " -> ";
+        // }
+        // cout << districts_origin.at(result_path[i]).name;
+        // cout << endl;
         cout << "-----------------------------------------" << endl;
     }
 
