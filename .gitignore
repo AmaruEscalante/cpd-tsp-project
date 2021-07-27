@@ -12,3 +12,5 @@ norecursivo/paralelo/tsp-pthread
 src/.env
 src/venv/
 src/venv/*
+src/result.txt
+src/maps_api_google.json
