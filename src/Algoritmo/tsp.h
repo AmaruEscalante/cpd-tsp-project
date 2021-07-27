@@ -11,6 +11,7 @@
 
 extern int costMatrix[N][N];
 extern int n;
+extern int result_path[N];
 
 int tsp();
 
