@@ -150,8 +150,9 @@ int main(int argc, char *argv[])
     stack<tour_t *> root_stack;
     stack<tour_t *> my_stack;
 
+    int thread_count = strtol(argv[2], NULL, 10);
     // Initialize threads
-    omp_set_num_threads(4);
+    omp_set_num_threads(thread_count);
 
     // Initialize best tour
     vector<int> best_tour_root;

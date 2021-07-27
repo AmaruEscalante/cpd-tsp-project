@@ -339,9 +339,6 @@ void solve(int costMatrix[N][N])
 
 int main(int argc, char *argv[])
 {
-    // initialize number of threads for paralel programming with openmp
-    omp_set_num_threads(4);
-
     int n;
     int costMatrix[N][N];
 
@@ -349,6 +346,10 @@ int main(int argc, char *argv[])
     int result_to_compare[N + 1];
     int result_cost_to_compare;
     read_matrix_and_result_from_file(argv[1], &n, &result_cost_to_compare, costMatrix, result_to_compare);
+
+    int thread_count = strtol(argv[2], NULL, 10);
+    // initialize number of threads for paralel programming with openmp
+    omp_set_num_threads(thread_count);
 
     double start = omp_get_wtime();
     solve(costMatrix);
