@@ -39,10 +39,10 @@ class JsonParser {
 template <typename TV, typename TE>
 class DistrictParser : JsonParser {
    public:
-    DistrictParser(string jsonPath) : JsonParser(jsonPath){
+    unordered_map<int, District> districts_origin;
+    unordered_map<int, District> districts_destination;
 
-        unordered_map<int, District> districts_origin;
-        unordered_map<int, District> districts_destination;
+    DistrictParser(string jsonPath) : JsonParser(jsonPath){
 
         /* Get row of matrix */
         int id_origin = 0;
@@ -85,9 +85,34 @@ class DistrictParser : JsonParser {
         }        
     };
 
-    void execute_TSP() {
+    void execute_TSP_secuencial() {
         /* Execute TSP */
         tsp();
+
+        /* Print Result Path with Districts Names */
+        cout << "Best tour by name is:" << endl;
+        int i = 0;
+        for (i = 0; i < n; i++) {
+            cout << districts_origin.at(result_path[i]).name << " -> ";
+        }
+        cout << districts_origin.at(result_path[i]).name;
+        cout << endl;
+        cout << "-----------------------------------------" << endl;
+    }
+
+    void execute_TSP_paralelo() {
+        /* Execute TSP */
+        tsp_par();
+
+        /* Print Result Path with Districts Names */
+        cout << "Best tour by name is:" << endl;
+        int i = 0;
+        for (i = 0; i < n; i++) {
+            cout << districts_origin.at(result_path[i]).name << " -> ";
+        }
+        cout << districts_origin.at(result_path[i]).name;
+        cout << endl;
+        cout << "-----------------------------------------" << endl;
     }
 
 };
