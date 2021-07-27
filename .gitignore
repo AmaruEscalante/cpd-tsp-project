@@ -9,3 +9,6 @@ cmake-build-debug/*
 CMakeList.txt
 build/
 norecursivo/paralelo/tsp-pthread
+src/.env
+src/venv/
+src/venv/*
