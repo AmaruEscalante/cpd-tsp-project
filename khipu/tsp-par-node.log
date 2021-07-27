@@ -1,0 +1,110 @@
+Reading file: ../tests/matrices/geekforgeeks_4.txt
+Number of elements in matrix is: 4
+Result to compare is: 
+1 3 4 2 1 
+Cost to compare is: 80
+----------------------------------------- 
+Path is: 1 2 4 3
+Best tour cost is: 80
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.000141259 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/video_5.txt
+Number of elements in matrix is: 5
+Result to compare is: 
+0 3 1 4 2 0 
+Cost to compare is: 28
+----------------------------------------- 
+Path is: 1 4 2 5 3
+Best tour cost is: 28
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.000181772 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/test_6.txt
+Number of elements in matrix is: 6
+Result to compare is: 
+1 3 6 2 4 5 1 
+Cost to compare is: 28
+----------------------------------------- 
+Path is: 1 3 6 2 4 5
+Best tour cost is: 28
+----------------------------------------- 
+Time taken is: 0.000000000 nano seconds
+Time taken is: 0.000450756 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/matrix_10.txt
+Number of elements in matrix is: 10
+Result to compare is: 
+1 8 2 6 3 5 7 9 10 4 1 
+Cost to compare is: 169
+----------------------------------------- 
+Path is: 1 4 10 9 7 5 3 6 2 8
+Best tour cost is: 169
+----------------------------------------- 
+Time taken is: 0.000000001 nano seconds
+Time taken is: 1.442597620 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: false
+2. Test Cost: true
+Reading file: ../tests/matrices/matrix_12.txt
+Number of elements in matrix is: 12
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 1232 
+Cost to compare is: 32638
+----------------------------------------- 
+/var/spool/slurmd/job06926/slurm_script: line 29:  4978 Killed                  ./tsp-node-par ../tests/matrices/matrix_12.txt
+Reading file: ../tests/matrices/matrix_13.txt
+Number of elements in matrix is: 13
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 1232 
+Cost to compare is: 0
+----------------------------------------- 
+/var/spool/slurmd/job06926/slurm_script: line 33:  5245 Killed                  ./tsp-node-par ../tests/matrices/matrix_13.txt
+Reading file: ../tests/matrices/matrix_14.txt
+Number of elements in matrix is: 14
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 1232 
+Cost to compare is: 0
+----------------------------------------- 
+/var/spool/slurmd/job06926/slurm_script: line 37:  5376 Killed                  ./tsp-node-par ../tests/matrices/matrix_14.txt
+Reading file: ../tests/matrices/matrix_15.txt
+Number of elements in matrix is: 15
+Result to compare is: 
+1 7 15 6 9 2 3 10 5 13 12 8 14 4 11 1 
+Cost to compare is: 214
+----------------------------------------- 
+/var/spool/slurmd/job06926/slurm_script: line 41:  5444 Killed                  ./tsp-node-par ../tests/matrices/matrix_15.txt
+Reading file: ../tests/matrices/matrix_16.txt
+Number of elements in matrix is: 16
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 
+Cost to compare is: 123
+----------------------------------------- 
+/var/spool/slurmd/job06926/slurm_script: line 45:  5500 Killed                  ./tsp-node-par ../tests/matrices/matrix_16.txt
+Reading file: ../tests/matrices/matrix_17.txt
+Number of elements in matrix is: 17
+Result to compare is: 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 
+Cost to compare is: 123
+----------------------------------------- 
+/var/spool/slurmd/job06926/slurm_script: line 49:  5550 Killed                  ./tsp-node-par ../tests/matrices/matrix_17.txt
+Reading file: ../tests/matrices/matrix_20.txt.bk
+Number of elements in matrix is: 20
+Result to compare is: 
+1 13 7 17 15 6 12 3 19 20 8 11 4 18 10 9 2 5 14 16 1 
+Cost to compare is: 213
+----------------------------------------- 
+/var/spool/slurmd/job06926/slurm_script: line 53:  5601 Killed                  ./tsp-node-par ../tests/matrices/matrix_20.txt.bk
+slurmstepd: error: Detected 7 oom-kill event(s) in step 6926.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
