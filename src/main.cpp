@@ -14,7 +14,16 @@ int main(int argc, char *argv[])
         "maps_api_google.json");
     cout << endl;
 
-    districtsparse.execute_TSP();
+    cout << "================================================" << endl;
+    cout << "Ejecución TSP secuencial" << endl;
+    cout << "================================================" << endl;
+    districtsparse.execute_TSP_secuencial();
+    cout << endl;
+    
+    cout << "================================================" << endl;
+    cout << "Ejecución TSP Paralelo" << endl;
+    cout << "================================================" << endl;
+    districtsparse.execute_TSP_paralelo();
 
     return EXIT_SUCCESS;
 }
