@@ -70,7 +70,9 @@ class DistrictParser : JsonParser {
             for (auto& values : element_rows["elements"]) {
                 // cout << values << endl;
                 // cout << id_origin << " " << id_destination << " " << values["distance"]["value"] << endl;
-                costMatrix[id_origin][id_destination] = values["distance"]["value"];
+                int distance = values["distance"]["value"];
+                int duration = values["duration"]["value"];
+                costMatrix[id_origin][id_destination] = (int)(0.9 * distance + 0.1 * duration);
                 id_destination++;
             }
             id_origin++;

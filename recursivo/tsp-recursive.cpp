@@ -1,5 +1,5 @@
-// C++ program to solve Traveling Salesman Problemusing Branch and Bound.
-// Geek for Geeks
+// C++ program to solve Traveling Salesman Problem using Branch and Bound.
+// This is only and example and is not used in the proyect. 
 // https://www.geeksforgeeks.org/traveling-salesman-problem-using-branch-and-bound-2/
 #include <iostream>
 #include <cmath>

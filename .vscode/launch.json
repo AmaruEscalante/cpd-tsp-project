@@ -8,7 +8,7 @@
 			"name": "Simulate",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceRoot}\\build\\win\\main.exe",
+			"program": "${workspaceRoot}\\src\\main.exe",
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
@@ -17,7 +17,7 @@
 			"miDebuggerPath": "gdb.exe",
 			"preLaunchTask": "Build",
 			"linux": {
-				"program": "${workspaceRoot}/build/lin/main.out",
+				"program": "${workspaceRoot}/src/main.out",
 				"setupCommands": [
 					{
 						"description": "Habilitar la impresión con sangría para gdb",
@@ -27,7 +27,7 @@
 				]
 			},
 			"osx": {
-				"program": "${workspaceRoot}/build/osx/main.out",
+				"program": "${workspaceRoot}/src/main.out",
 				"MIMode": "lldb" // lldb | gdb
 			},
 			"windows": {

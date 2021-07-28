@@ -10,12 +10,12 @@ cd tests/matrices
 for i in $LIST
 do
     echo " "
-    echo " ######################################################### "
+    echo "######################################################### "
     echo "Test with a matrix with $i elements"
     FILE=$(ls *_$i.txt)
     echo "Execute " "./../build/tests/main-$i.out" " $FILE"
-    ./../../build/tests/main-$i.out "$FILE"
+    ./../../build/tests/main-$i.out "$FILE" $1
     echo "Test: $i - OK"
-    echo " ######################################################### "
+    echo "######################################################### "
     echo " "
 done

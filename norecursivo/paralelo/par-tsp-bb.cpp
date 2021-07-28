@@ -1,50 +1,10 @@
-// Peter Pacheco - An Introduction to Parallel Programming
-// Travelling Salesman Problem (TSP) with depth-first search second iterative version.
-//
-// Push copy(stack, tour); // Tour that visits only the hometown
-// while (!Empty(stack))
-// {
-//     curr tour = Pop(stack);
-//     if (City count(curr tour) == n)
-//     {
-//         if (Best tour(curr tour))
-//             Update best tour(curr tour);
-//     }
-//     else
-//     {
-//         for (nbr = n − 1; nbr >= 1; nbr −− )
-//             if (Feasible(curr tour, nbr))
-//             {
-//                 Add city(curr tour, nbr);
-//                 Push copy(stack, curr tour);
-//                 Remove last city(curr tour);
-//             }
-//     }
-//     Free tour(curr tour);
-// }
-
-//6.2 Tree Search
-
-// Push copy function
-// void Push copy(my stack t stack, tour t tour)
-// {
-//     int loc = stack − > list sz;
-
-//     tour t tmp = Alloc tour();
-//     Copy tour(tour, tmp);
-//     stack − > list[loc] = tmp;
-//     stack − > list sz++;
-//     /∗ Push ∗/
-// }
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <stack>
 #include <climits>
 #include <chrono>
-#include <cmath>
-#include <iomanip>
+#include <omp.h>
 
 #include "../../tests/readfiles.h"
 
@@ -143,15 +103,20 @@ bool feasible(tour_t *&tour, int nbr)
 
 int main(int argc, char *argv[])
 {
+
     /* Read Files and Set variables */
     int result_to_compare[N + 1];
     int result_cost_to_compare;
     read_matrix_and_result_from_file(argv[1], &n, &result_cost_to_compare, costMatrix, result_to_compare);
 
     /* Create stack */
-    stack<tour_t *> stack;
+    stack<tour_t *> root_stack;
+    stack<tour_t *> my_stack;
 
-    auto start = std::chrono::high_resolution_clock::now();
+    int thread_count = strtol(argv[2], NULL, 10);
+    // Initialize threads
+    omp_set_num_threads(thread_count);
+
     // Initialize best tour
     vector<int> best_tour_root;
     best_tour = newTour(best_tour_root, INT_MAX);
@@ -159,36 +124,56 @@ int main(int argc, char *argv[])
     // Initialize first tour
     vector<int> root_cities;
     root_cities.push_back(0);
-    tour_t *root = newTour(root_cities, 0);
-    stack.push(root);
+    tour_t *root_tour = newTour(root_cities, 0);
+    //root_stack.push(root);
 
-    // Main loop
-    while (!stack.empty())
+    double start = omp_get_wtime();
+
+    // Initialize thread-local best tour
+#pragma omp parallel private(my_stack)
     {
-        tour_t *curr_tour = stack.top();
-        stack.pop();
-        if (curr_tour->cities.size() == n)
+#pragma omp for
+        for (int i = 1; i < N; i++)
         {
-            if (is_best_tour(curr_tour))
-            {
-                update_best_tour(curr_tour);
-            }
+            tour_t *local_tour = newTour(root_cities, 0);
+            add_city(local_tour, i);
+            my_stack.push(local_tour);
         }
-        else
+        // Main loop
+        while (!my_stack.empty())
         {
-            for (int nbr = n - 1; nbr >= 1; nbr--)
+            tour_t *curr_tour = my_stack.top();
+            my_stack.pop();
+            if (curr_tour->cities.size() == n)
             {
-                if (feasible(curr_tour, nbr))
+                if (is_best_tour(curr_tour))
                 {
-                    add_city(curr_tour, nbr);
-                    push_copy(stack, curr_tour);
-                    remove_city(curr_tour, nbr);
+#pragma omp critical
+                    {
+                        if (is_best_tour(curr_tour))
+                        {
+                            update_best_tour(curr_tour);
+                        }
+                    }
                 }
             }
+            else
+            {
+                for (int nbr = n - 1; nbr >= 1; nbr--)
+                {
+                    if (feasible(curr_tour, nbr))
+                    {
+                        add_city(curr_tour, nbr);
+                        push_copy(my_stack, curr_tour);
+                        remove_city(curr_tour, nbr);
+                    }
+                }
+            }
+            delete curr_tour;
         }
-        delete curr_tour;
     }
-    auto stop = std::chrono::high_resolution_clock::now();
+
+    double stop = omp_get_wtime();
 
     int result_tsp[N + 1]; // use to set the result vecto to array
 
@@ -204,8 +189,8 @@ int main(int argc, char *argv[])
     std::cout << "Best tour cost is: " << best_tour->cost << std::endl;
 
     // Print time taken
-    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
-    print_time(time);
+    double time = stop - start;
+    print_time(time, true);
 
     // Test if the result is correct
     test(result_tsp, result_to_compare, best_tour->cost, result_cost_to_compare);
