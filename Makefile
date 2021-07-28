@@ -6,9 +6,9 @@ TIPO=norecursivo
 LIST:=$(shell ls tests/matrices/*.txt | cut -f 1 -d '.' | cut -d_ -f2-)
 FILES:=$(shell ls tests/matrices/*.txt | cut -d/ -f2-)
 
-allsec: clean buildsec runtest
+allsec: clean buildsec runtestsec
 
-allpar: clean buildpar runtest
+allpar: clean buildpar runtestpar
 
 buildsec:
 	rm -rf ${FOLDER}/tests
@@ -20,11 +20,15 @@ buildpar:
 	rm -rf ${FOLDER}/tests
 	mkdir -p ${FOLDER}/tests
 	$(info    Compile files)
-	for number in $(LIST) ; do ${CC} -std=${V} ${TIPO}/paralelo/par-tsp-bb.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
+	for number in $(LIST) ; do ${CC} -std=${V} -Xpreprocessor -fopenmp ${TIPO}/paralelo/par-tsp-bb.cpp -o ${FOLDER}/tests/main-$$number.out -lomp -DSIZE=$$number ; done
 
-runtest:
+runtestsec:
 	$(info    Run programs)
 	./tests/run.sh > tests/run.log
+
+runtestpar:
+	$(info    Run programs, with 4 threads)
+	./tests/run.sh 4 > tests/run.log
 
 runparser:
 	$(info    Compile main.cpp in src/ folder)

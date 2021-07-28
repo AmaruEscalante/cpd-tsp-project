@@ -1,0 +1,231 @@
+Init test of TSP Proyect at:  2021-07-28--04-58
+ 
+######################################################### 
+Test with a matrix with 10 elements
+Execute  ./../build/tests/main-10.out  matrix_10.txt
+Reading file: matrix_10.txt
+Number of elements in matrix is: 10
+Result to compare is: 
+0 7 1 5 2 4 6 8 9 3 0 
+Cost to compare is: 169
+----------------------------------------- 
+Best tour is: 
+0 7 1 5 2 4 6 8 9 3 0 
+Best tour cost is: 169
+----------------------------------------- 
+Time taken is: 6467104 nano seconds
+Time taken is: 0.006467104 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 10 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 12 elements
+Execute  ./../build/tests/main-12.out  matrix_12.txt
+Reading file: matrix_12.txt
+Number of elements in matrix is: 12
+Result to compare is: 
+0 11 2 3 1 5 7 4 8 9 6 10 0 
+Cost to compare is: 159
+----------------------------------------- 
+Best tour is: 
+0 11 2 3 1 5 7 4 8 9 6 10 0 
+Best tour cost is: 159
+----------------------------------------- 
+Time taken is: 214165926 nano seconds
+Time taken is: 0.214165926 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 12 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 13 elements
+Execute  ./../build/tests/main-13.out  matrix_13.txt
+Reading file: matrix_13.txt
+Number of elements in matrix is: 13
+Result to compare is: 
+0 3 9 10 12 6 2 4 5 8 7 1 11 0 
+Cost to compare is: 253
+----------------------------------------- 
+Best tour is: 
+0 3 9 10 12 6 2 4 5 8 7 1 11 0 
+Best tour cost is: 253
+----------------------------------------- 
+Time taken is: 2197978973 nano seconds
+Time taken is: 2.197978973 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 13 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 14 elements
+Execute  ./../build/tests/main-14.out  matrix_14.txt
+Reading file: matrix_14.txt
+Number of elements in matrix is: 14
+Result to compare is: 
+0 10 2 7 4 5 3 11 13 9 12 1 8 6 0 
+Cost to compare is: 209
+----------------------------------------- 
+Best tour is: 
+0 10 2 7 4 5 3 11 13 9 12 1 8 6 0 
+Best tour cost is: 209
+----------------------------------------- 
+Time taken is: 1694134951 nano seconds
+Time taken is: 1.694134951 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 14 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 15 elements
+Execute  ./../build/tests/main-15.out  matrix_15.txt
+Reading file: matrix_15.txt
+Number of elements in matrix is: 15
+Result to compare is: 
+0 10 3 13 7 11 12 4 9 2 1 8 5 14 6 0 
+Cost to compare is: 214
+----------------------------------------- 
+Best tour is: 
+0 10 3 13 7 11 12 4 9 2 1 8 5 14 6 0 
+Best tour cost is: 214
+----------------------------------------- 
+Time taken is: 13657254934 nano seconds
+Time taken is: 13.657254934 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 15 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 16 elements
+Execute  ./../build/tests/main-16.out  matrix_16.txt
+Reading file: matrix_16.txt
+Number of elements in matrix is: 16
+Result to compare is: 
+0 15 8 9 7 5 12 10 2 1 3 4 14 6 13 11 0 
+Cost to compare is: 186
+----------------------------------------- 
+Best tour is: 
+0 15 8 9 7 5 12 10 2 1 3 4 14 6 13 11 0 
+Best tour cost is: 186
+----------------------------------------- 
+Time taken is: 6857098103 nano seconds
+Time taken is: 6.857098103 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 16 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 17 elements
+Execute  ./../build/tests/main-17.out  matrix_17.txt
+Reading file: matrix_17.txt
+Number of elements in matrix is: 17
+Result to compare is: 
+0 16 11 1 8 5 2 12 14 3 4 15 7 9 6 10 13 0 
+Cost to compare is: 187
+----------------------------------------- 
+Best tour is: 
+0 16 11 1 8 5 2 12 14 3 4 15 7 9 6 10 13 0 
+Best tour cost is: 187
+----------------------------------------- 
+Time taken is: 22369489908 nano seconds
+Time taken is: 22.369489908 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 17 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 4 elements
+Execute  ./../build/tests/main-4.out  matrix_4.txt
+Reading file: matrix_4.txt
+Number of elements in matrix is: 4
+Result to compare is: 
+0 1 3 2 0 
+Cost to compare is: 80
+----------------------------------------- 
+Best tour is: 
+0 1 3 2 0 
+Best tour cost is: 80
+----------------------------------------- 
+Time taken is: 224113 nano seconds
+Time taken is: 0.000224113 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 4 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 5 elements
+Execute  ./../build/tests/main-5.out  matrix_5.txt
+Reading file: matrix_5.txt
+Number of elements in matrix is: 5
+Result to compare is: 
+0 3 1 4 2 0 
+Cost to compare is: 28
+----------------------------------------- 
+Best tour is: 
+0 3 1 4 2 0 
+Best tour cost is: 28
+----------------------------------------- 
+Time taken is: 258923 nano seconds
+Time taken is: 0.000258923 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 5 - OK
+######################################################### 
+ 
+ 
+######################################################### 
+Test with a matrix with 6 elements
+Execute  ./../build/tests/main-6.out  matrix_6.txt
+Reading file: matrix_6.txt
+Number of elements in matrix is: 6
+Result to compare is: 
+0 4 3 1 5 2 0 
+Cost to compare is: 28
+----------------------------------------- 
+Best tour is: 
+0 4 3 1 5 2 0 
+Best tour cost is: 28
+----------------------------------------- 
+Time taken is: 282049 nano seconds
+Time taken is: 0.000282049 seconds
+----------------------------------------- 
+Result of tests are: 
+1. Test Path: true
+2. Test Cost: true
+Test: 6 - OK
+######################################################### 
+ 
