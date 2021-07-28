@@ -8,6 +8,14 @@
 
 #include "../../tests/readfiles.h"
 
+// `N` is the total number of total nodes on the graph or cities on the map
+#ifdef SIZE
+#undef N
+#define N SIZE
+#else
+#define N 12
+#endif
+
 using namespace std;
 
 // Sentinel value for representing `INFINITY`
@@ -195,7 +203,7 @@ int calculateCost(int reducedMatrix[N][N])
     for (int i = 0; i < N; i++)
     {
         cost += (row[i] != INT_MAX) ? row[i] : 0,
-                cost += (col[i] != INT_MAX) ? col[i] : 0;
+            cost += (col[i] != INT_MAX) ? col[i] : 0;
     }
 
     return cost;
@@ -302,7 +310,6 @@ void solve(int costMatrix[N][N])
 
                 // // return optimal cost
                 // global_cost = min->cost;
-
             }
 
             // do for each child of min
@@ -334,7 +341,6 @@ void solve(int costMatrix[N][N])
             delete min;
         }
     }
-
 }
 
 int main(int argc, char *argv[])
