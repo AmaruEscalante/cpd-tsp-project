@@ -31,9 +31,24 @@ pip install -r requirements.txt
 touch .env
 ```
 
-# To compile c++ code: obtain the source code main.out
+## To compile c++ code: obtain the source code main.out
 
 ```
 cd src/
 g++ --std=c++11 -Xpreprocessor -fopenmp  main.cpp Algoritmo/*.cpp -o main.out -lomp
 ```
+
+# Tests the development TSP BB algorithm (parallel and serial)
+
+To test the algoritm need to use Makefile.
+
+## Usage of Makefile:
+
+To execute the test (depends if you want to test the parallel or serial version): 
+
+```
+make allsec
+make allpar
+```
+
+A logging file will be created in tests/ folder to check the results.
