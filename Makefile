@@ -14,13 +14,13 @@ buildsec:
 	rm -rf ${FOLDER}/tests
 	mkdir -p ${FOLDER}/tests
 	$(info    Compile files)
-	for number in $(LIST) ; do ${CC} -std=${V} ${TIPO}/serial/tsp-dfs-v2.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
+	for number in $(LIST) ; do ${CC} -std=${V} ${TIPO}/serial/ser-tsp-bb.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
 
 buildpar:
 	rm -rf ${FOLDER}/tests
 	mkdir -p ${FOLDER}/tests
 	$(info    Compile files)
-	for number in $(LIST) ; do ${CC} -std=${V} ${TIPO}/paralelo/par-dfs-v2-tsp.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
+	for number in $(LIST) ; do ${CC} -std=${V} ${TIPO}/paralelo/par-tsp-bb.cpp -o ${FOLDER}/tests/main-$$number.out -DSIZE=$$number ; done
 
 runtest:
 	$(info    Run programs)
