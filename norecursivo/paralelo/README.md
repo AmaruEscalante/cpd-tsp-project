@@ -1,9 +1,9 @@
 # How to compile
 
-- MAC: g++ --std=c++17 -Xpreprocessor -fopenmp tsp-node-par.cpp -lomp -DSIZE=10
-- LINUX: g++ -std=c++17 ../norecursivo/paralelo/tsp-node-par.cpp -fopenmp -lpthread -o tsp-node-par -DSIZE=4
+- MAC: g++ --std=c++17 -Xpreprocessor -fopenmp par-dfs-v2-tsp.cpp -lomp -DSIZE=10
+- LINUX: g++ -std=c++17 ../norecursivo/paralelo/par-dfs-v2-tsp.cpp -fopenmp -lpthread -o par-dfs-v2-tsp -DSIZE=4
 
 # How to run
-- ./a.out ../../tests/matrices/matrix_10.txt 4
+- ./par-dfs-v2-tsp ../../tests/matrices/matrix_10.txt 4
 - first arg: path to the file with the adjency matrix
 - second arg: number of threads
