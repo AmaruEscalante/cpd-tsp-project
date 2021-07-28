@@ -1,20 +1,34 @@
 #ifndef READFILES_H
 #define READFILES_H
 
+/*
+ *   Este archivo contiene funciones utilitarias para 
+ *   realizar los tests de algoritmo TSP Branch and Bound.
+*/
+
 #include <iostream>
 #include <cmath>
 #include <chrono>
 #include <iomanip>
 
+/* Definición del tamaño de la matriz */
 #ifdef SIZE
 #undef N
-#define N SIZE
+    #define N SIZE
 #else
-#define N 10
+    #define N 10
 #endif
 
 using namespace std;
 
+/* 
+ * Función para leer un archivo de texto, y setear las matrices corresponientes.
+ * @param filename: nombre del archivo a leer.
+ * @param n: tamaño de la matriz.
+ * @param cost: costo final del mejor camino.
+ * @param costM[][N]: matriz de costos.
+ * @param result[N-1]: vector para almacenar el mejor resultado.
+ */
 void read_matrix_and_result_from_file(const char *filename, int *n, int *cost, int costM[][N], int result[N-1]){
     cout << "Reading file: " << filename << endl;
     freopen(filename, "r", stdin);
@@ -40,6 +54,11 @@ void read_matrix_and_result_from_file(const char *filename, int *n, int *cost, i
     cout << "----------------------------------------- " << endl;
 }
 
+/* 
+ * Función para monstrar el tiempo de ejecución en segundos y nanosegundos.
+ * @param time: tiempo total.
+ * @param par: deferenciar en caso sea un tiempo paralelo.
+ */
 void print_time(double time, bool par = false){
     cout << "----------------------------------------- " << endl;
     if (par) {
@@ -57,6 +76,9 @@ void print_time(double time, bool par = false){
     cout << "----------------------------------------- " << endl;
 }
 
+/*
+ * Funcion que verifica si el mejor camino encontrado y el costo final es igual al esperado.
+ */
 void test(int result[], int result_to_compare[], int cost, int cost_to_compare){
     cout << "Result of tests are: " << endl;
 
