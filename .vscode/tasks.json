@@ -34,7 +34,6 @@
 				"command": "g++",
 				"args": [
 					"--std=c++11",
-					"-g",
 					"${workspaceFolder}\\src\\main.cpp",
 					"${workspaceFolder}\\src\\Algoritmo\\*.cpp",
 					"-o",
@@ -47,7 +46,6 @@
 					"--std=c++11",
 					"-Xpreprocessor",
 					"-fopenmp",
-					"-g",
 					"${workspaceFolder}/src/main.cpp",
 					"${workspaceFolder}/src/Algoritmo/*.cpp",
 					"-o",
@@ -60,7 +58,6 @@
 				"command": "g++",
 				"args": [
 					"--std=c++11",
-					"-g",
 					"${workspaceFolder}/src/main.cpp",
 					"${workspaceFolder}/src/Algoritmo/*.cpp",
 					"-fopenmp",
