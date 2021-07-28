@@ -13,13 +13,13 @@
 		{
 			"label": "Run",
 			"windows": {
-				"command": "${workspaceFolder}\\build\\win\\main.exe"
+				"command": "${workspaceFolder}\\src\\main.exe"
 			},
 			"linux": {
-				"command": "${workspaceFolder}/build/lin/main.out"
+				"command": "${workspaceFolder}/src/main.out"
 			},
 			"osx": {
-				"command": "${workspaceFolder}/build/osx/main.out"
+				"command": "${workspaceFolder}/src/main.out"
 			},
 			"group": {
 				"kind": "build",
@@ -38,19 +38,22 @@
 					"${workspaceFolder}\\src\\main.cpp",
 					"${workspaceFolder}\\src\\Algoritmo\\*.cpp",
 					"-o",
-					"${workspaceFolder}\\build\\win\\main.exe"
+					"${workspaceFolder}\\src\\main.exe"
 				]
 			},
 			"osx": {
 				"command": "g++",
 				"args": [
 					"--std=c++11",
+					"-Xpreprocessor",
+					"-fopenmp",
 					"-g",
 					"${workspaceFolder}/src/main.cpp",
 					"${workspaceFolder}/src/Algoritmo/*.cpp",
 					"-o",
-					"${workspaceFolder}/build/osx/main.out",
-					"-w"
+					"${workspaceFolder}/src/main.out",
+					"-w",
+					"-lomp"
 				]
 			},
 			"linux": {
@@ -60,8 +63,10 @@
 					"-g",
 					"${workspaceFolder}/src/main.cpp",
 					"${workspaceFolder}/src/Algoritmo/*.cpp",
+					"-fopenmp",
+					" -lpthread",
 					"-o",
-					"${workspaceFolder}/build/lin/main.out"
+					"${workspaceFolder}/src/main.out"
 				]
 			},
 			// "dependsOn": ["OutDir"]
@@ -72,21 +77,21 @@
 			"windows": {
 				"command": "mkdir",
 				"args": [
-					"${workspaceFolder}\\build\\win",
+					"${workspaceFolder}\\src",
 				]
 			},
 			"osx": {
 				"command": "mkdir",
 				"args": [
 					"-p",
-					"${workspaceFolder}/build/osx",
+					"${workspaceFolder}/src",
 				]
 			},
 			"linux": {
 				"command": "mkdir",
 				"args": [
 					"-p",
-					"${workspaceFolder}/build/lin",
+					"${workspaceFolder}/src",
 				]
 			}
 		}
