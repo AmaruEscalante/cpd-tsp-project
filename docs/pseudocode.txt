@@ -1,0 +1,34 @@
+/* tamaño de la matriz */
+int n;
+/* matriz de adyacencia */
+int costMatrix[N][N];
+/* tour que almacena el mejor tour hasta el momento */
+tour_t *best_tour;
+/* estructura tour (camino recorrido) */
+struct tour_t
+{
+    vector<int> cities;
+    int cost;
+};
+
+/* Pseudo code */
+push_copy(stack, root);
+while (!stack.is_empty()) {
+    curr_tour = stack.pop();
+    if (curr_tour->cities.size() == n) {
+        if (is_best_tour(curr_tour)) {
+            update_best_tour(curr_tour);
+        }
+    }
+    else {
+        for (nbr = n - 1; nbr >= 1; nbr--) {
+            if (feasible(curr_tour, nbr)) {
+                add_city(curr_tour, nbr);
+                push_copy(stack, curr_tour);
+                remove_city(curr_tour, nbr);
+            }
+        }
+    }
+    free (curr_tour);
+}
+
