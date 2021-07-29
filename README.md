@@ -1,4 +1,4 @@
-# cpd-tsp-project
+# Travelling Salesman Problem with Parallel Programming
 
 Implement the TSP Branch and Bound parallel algorithm. TSP Branch and Bound search each path and checks if it is better than the best path so far, if not the algoritm ends the search for that branch.
 
