@@ -6,16 +6,17 @@ Implement the TSP Branch and Bound parallel algorithm. TSP Branch and Bound sear
 2. Test the source code.
 3. Optimization: Allow the software to be interactive to be able to enter two or more cities and find the optimal way between them.
 
-    - Use Lima district matrix:  Lima Centro, Lince, Mi-raflores, Barranco, Rimac, Los Olivos, La Molina, La Victoria, Magdalena, SanBorja.
+   - Use Lima district matrix: Lima Centro, Lince, Mi-raflores, Barranco, Rimac, Los Olivos, La Molina, La Victoria, Magdalena, SanBorja.
 
 # Software
 
 - A python script (main_tsp.py) was developped to allow the user to enter two or more cities, search the real distance with Google Maps API and find the optimal way between them.
 - C++ program (main.cpp) was developped to implement the TSP BB parallel algorithm and parse input JSON format data.
-- Source code are in src/ folder. 
-    - This contains Parser.h and Parser.cpp, which are the main classes to parse the input JSON format data.
-    - This contains TSPBB.h and TSPBB.cpp, which are the main classes to implement the TSP BB parallel algorithm.
-    - This contains main programs and JSON file.
+- Source code are in src/ folder.
+  - This contains Parser.h and Parser.cpp, which are the main classes to parse the input JSON format data.
+  - This contains TSPBB.h and TSPBB.cpp, which are the main classes to implement the TSP BB parallel algorithm.
+  - This contains main programs and JSON file.
+
 ## To use the user console:
 
 1. To execute the program go to src/
@@ -31,6 +32,12 @@ pip install -r requirements.txt
 touch .env
 ```
 
+3. In the file .env load your Google API Key for the Matrix Distance API Service, you should have an active billing account and the service must be enabled.
+   Load it like this inside the .env file: MAPS_KEY="YOURAPIKEY"
+
+4. Run the program
+   `python main_tsp.py`
+
 ## To compile c++ code: obtain the source code main.out
 
 ```
@@ -44,7 +51,7 @@ To test the algoritm need to use Makefile.
 
 ## Usage of Makefile:
 
-To execute the test (depends if you want to test the parallel or serial version): 
+To execute the test (depends if you want to test the parallel or serial version):
 
 ```
 make allsec
