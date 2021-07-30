@@ -32,7 +32,7 @@ runtestpar:
 
 runparser:
 	$(info    Compile main.cpp in src/ folder)
-	${CC} -std=${V} -Xpreprocessor -fopenmp main.cpp Algoritmo/*.cpp -o main.out -lomp -w
+	${CC} -std=c++11 -Xpreprocessor -fopenmp src/main.cpp src/Algoritmo/*.cpp -o src/main.out -lomp -w
 	$(info    Running Parser)
 	${FOLDER}/osx/main.out
 

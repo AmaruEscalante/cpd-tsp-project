@@ -64,6 +64,7 @@ class DistrictParser : JsonParser {
 
         n = id_origin; /* Set size to execute TSP */
         
+        /* Iterate over ["rows"]["elements"] key to get distance and duration */
         id_origin = 0;
         for (auto& element_rows : data["rows"]) {
             id_destination = 0;
