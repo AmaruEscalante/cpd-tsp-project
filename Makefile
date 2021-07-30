@@ -30,11 +30,9 @@ runtestpar:
 	$(info    Run programs, with 4 threads)
 	./tests/run.sh 4 > tests/run.log
 
-runparser:
+buildparser:
 	$(info    Compile main.cpp in src/ folder)
 	${CC} -std=c++11 -Xpreprocessor -fopenmp src/main.cpp src/Algoritmo/*.cpp -o src/main.out -lomp -w
-	$(info    Running Parser)
-	${FOLDER}/osx/main.out
 
 clean:
 	rm -rf ${FOLDER}
