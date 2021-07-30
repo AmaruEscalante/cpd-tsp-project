@@ -35,6 +35,7 @@ struct tour_t
     int cost;
 };
 
+/* Función que realiza la creación de un nuevo tour */
 tour_t *newTour(vector<int> &cities, int cost)
 {
     tour_t *node = new tour_t;
@@ -43,6 +44,7 @@ tour_t *newTour(vector<int> &cities, int cost)
     return node;
 }
 
+/* Funcion para añadir una cuidad al tour y actualizar su costo */
 void add_city(tour_t *&tour, int city)
 {
     // Add city to the tour
@@ -50,6 +52,7 @@ void add_city(tour_t *&tour, int city)
     tour->cities.push_back(city);
 }
 
+/* Funcion para eliminar una cuidad al tour y actualizar su costo */
 void remove_city(tour_t *&tour, int city)
 {
     // Remove last city from tour
@@ -57,12 +60,16 @@ void remove_city(tour_t *&tour, int city)
     tour->cost -= costMatrix[tour->cities.back()][city];
 }
 
+/* Función que realiza una copia del tour actual y lo añade a la pila, 
+ * esto es realizado ya que al final del pseudocódigo la variable curr\_tour
+ * es eliminada */
 void push_copy(stack<tour_t *> &stack, tour_t *&tour)
 {
     tour_t *tmp = newTour(tour->cities, tour->cost);
     stack.push(tmp);
 }
 
+/* Función que verifica si el costo actual del tour es menor al mejor costo */
 bool is_best_tour(tour_t *&tour)
 {
     // Add cost from last node to root node
@@ -77,6 +84,7 @@ bool is_best_tour(tour_t *&tour)
         return false;
 }
 
+/* Función que se encarga de actualizar la variable global best_tour y calcular se costo final */
 void update_best_tour(tour_t *&tour)
 {
     // Sum the cost back to the root node
@@ -84,6 +92,10 @@ void update_best_tour(tour_t *&tour)
     best_tour->cost = tour->cost + costMatrix[tour->cities.back()][tour->cities.front()];
 }
 
+/* determina si la ciudad ya ha sido visitado o no, 
+ * en caso que si retorna true y en caso que no,
+ * se determinar si el costo de este camino es menor 
+ * que el mejor costo hasta el momento. */
 bool feasible(tour_t *&tour, int nbr)
 {
     bool lower_cost;
